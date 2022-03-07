@@ -16,22 +16,21 @@ Jede Sitzung besteht aus einem Vorlesungsteil und einem Tutorial, in dem die Stu
 Das Forschungspraktikum ist als Präsenzveranstaltung geplant. Falls die Pandemieentwicklung dies verlangt, wird die Veranstaltung ins Onlineformat überführt.
 
 ### Kursmaterialien & Software
-Folien und Code werden hier über GitHub bereitgestellt. Zur Bearbeitung der Aufgaben werden R (Programmiersprache) und RStudio (Entwicklungsumgebung) benötigt. Eine Einführung in R gibt es beispielsweise hier und in unzähligen weiteren Tutorials. Dieses Video ist eine Anleitung speziell zum Installieren von R und RStudio.
+Folien und Code werden hier über GitHub bereitgestellt. Zur Bearbeitung der Aufgaben werden [R](https://cloud.r-project.org/) (Programmiersprache) und [RStudio](https://www.rstudio.com/products/rstudio/download/) (Entwicklungsumgebung) benötigt. Eine Einführung in R gibt es beispielsweise [hier](https://www.cspoerlein.com/files/rtutorial#prerequisites) und in [unzähligen weiteren Tutorials](https://www.google.com/search?q=r+introduction). [Dieses Video](https://www.youtube.com/watch?v=lVKMsaWju8w) ist eine Anleitung speziell zum Installieren von R und RStudio.
 
 ### Leistungsnachweis
-Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der einzelnen Tutorials. Die Hausarbeit soll eine selbstdurchgeführte Längsschnittdatenanalyse zu einem Thema nach Wahl sein. Der Schwerpunkt dieser Arbeit wird auf der Datenauswertung liegen. Abgabedatum ist der _01. September 2022_ per E-Mail an cc[at]soz.uni-frankfurt.de.
+Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der einzelnen Tutorials. Die Hausarbeit soll eine selbstdurchgeführte Längsschnittdatenanalyse zu einem Thema nach Wahl sein. Der Schwerpunkt dieser Arbeit wird auf der Datenauswertung liegen. Abgabedatum ist der _01. September 2022_ per E-Mail an [cc[at]soz.uni-frankfurt.de](mailto:cc@soz.uni-frankfurt.de).
 
 ### Tutorin
 Für Fragen und Probleme (insbesondere bezüglich R) steht Subin Chang zur Verfügung.
 
-
 ## Sessions
 
-- Data for all tutorials are available [here](...).
+- Data for all tutorials are available [here (coming soon)](...).
 
 | # | Date | Topic | Lecture | Tutorial | Literature |
 | --- | --- | --- | --- | --- | --- |
-| 00 | 14.04. | Welcome & introduction to R | [Slides](https://htmlpreview.github.io/?https://github.com/czymara/xxx) | [Task](https://htmlpreview.github.io/?https://github.com/czymara/xxx) | Wickham & Grolemund (2017). [R for Data Science.](https://r4ds.had.co.nz/) O'Reilly. |
+| 00 | 14.04. | Welcome & introduction to R | [Slides (coming soon)](https://htmlpreview.github.io/?https://github.com/czymara/xxx) | [Task (coming soon)](https://htmlpreview.github.io/?https://github.com/czymara/xxx) | Wickham & Grolemund (2017). [R for Data Science.](https://r4ds.had.co.nz/) O'Reilly. |
 | 01 | 21.04. | Directed acyclic graphs | tba | tba |  Elwert (2013). [Graphical causal models](https://link.springer.com/chapter/10.1007/978-94-007-6094-3_13). In: Handbook of causal analysis for social research (245 - 273). Springer Science & Business Media. |
 | 02 | 28.04. | Linear regression with cross-sectional and longitudinal data | tba | tba | Wooldridge (2012). [Introductory econometrics: A modern approach](https://economics.ut.ac.ir/documents/3030266/14100645/Jeffrey_M._Wooldridge_Introductory_Econometrics_A_Modern_Approach__2012.pdf). Chapter 3 (68 - 94). Cengage Learning. |
 | 03 | 05.05. | Preparing panel data | tba | tba | Andreß, Golsch, & Schmidt (2014). [Applied panel data analysis for economic and social surveys](https://link.springer.com/book/10.1007/978-3-642-32914-2). Chapter 2 (15 - 48). Springer Science & Business Media |
