@@ -1,5 +1,5 @@
 
-# Forschungspraktikum I und II: Längsschnittdatenanalyse in R (Goethe University Frankfurt, summer term 2022)
+# Forschungspraktikum I & II: Längsschnittdatenanalyse in R
 
 ## Kursbeschreibung
 
@@ -16,17 +16,19 @@ Jede Sitzung besteht aus einem Vorlesungsteil und einem Tutorial, in dem die Stu
 Das Forschungspraktikum ist als Präsenzveranstaltung geplant. Falls die Pandemieentwicklung dies verlangt, wird die Veranstaltung ins Onlineformat überführt.
 
 ### Kursmaterialien & Software
-Folien und Code werden hier über GitHub bereitgestellt. Zur Bearbeitung der Aufgaben werden [R](https://cloud.r-project.org/) (Programmiersprache) und [RStudio](https://www.rstudio.com/products/rstudio/download/) (Entwicklungsumgebung) benötigt. Eine Einführung in R gibt es beispielsweise [hier](https://www.cspoerlein.com/files/rtutorial#prerequisites) und in [unzähligen weiteren Tutorials](https://www.google.com/search?q=r+introduction). [Dieses Video](https://www.youtube.com/watch?v=lVKMsaWju8w) ist eine Anleitung speziell zum Installieren von R und RStudio.
+Folien und Code werden über GitHub bereitgestellt (unter [czymara.com/FoPra](https://czymara.com/FoPra)). *Zur Kommunikation tragen sie sich bitte unter [czymara.com/FoPra-mail](https://czymara.com/FoPra-mail) in die Mailingliste für diesen Kurs ein.*
+
+Zur Bearbeitung der Aufgaben werden [R](https://cloud.r-project.org/) (Programmiersprache) und [RStudio](https://www.rstudio.com/products/rstudio/download/) (Entwicklungsumgebung) benötigt. Eine Einführung in R gibt es beispielsweise [hier](https://www.cspoerlein.com/files/rtutorial#prerequisites) und in [unzähligen weiteren Tutorials](https://www.google.com/search?q=r+introduction). [Dieses Video](https://www.youtube.com/watch?v=lVKMsaWju8w) ist eine Anleitung speziell zum Installieren von R und RStudio.
 
 ### Leistungsnachweis
 Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der einzelnen Tutorials. Die Hausarbeit soll eine selbstdurchgeführte Längsschnittdatenanalyse zu einem Thema nach Wahl sein. Der Schwerpunkt dieser Arbeit wird auf der Datenauswertung liegen. Abgabedatum ist der _01. September 2022_ per E-Mail an [cc[at]soz.uni-frankfurt.de](mailto:cc@soz.uni-frankfurt.de).
 
 ### Tutorin
-Für Fragen und Probleme (insbesondere bezüglich R) steht Subin Chang zur Verfügung.
+Für Fragen und Probleme (insbesondere zu R) steht Subin Chang zur Verfügung.
 
 ## Sessions
 
-- Data for all tutorials are available [here (coming soon)](...).
+- Data for all tutorials are available [here](https://github.com/czymara/longanalysisSS22/data/longanalysis_datasets.zip) (password will be made available via e-mail).
 
 | # | Date | Topic | Lecture | Tutorial | Literature |
 | --- | --- | --- | --- | --- | --- |
