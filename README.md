@@ -1,5 +1,5 @@
 
-# Forschungspraktikum I & II: Längsschnittdatenanalyse in R
+# Forschungspraktikum I&II: Längsschnittdatenanalyse in R
 
 ## Kursbeschreibung
 
@@ -28,7 +28,7 @@ Für Fragen und Probleme (insbesondere zu R) steht Subin Chang zur Verfügung.
 
 ## Sessions
 
-- Data for all tutorials are available [here](https://github.com/czymara/longanalysisSS22/data/longanalysis_datasets.zip) (password will be made available via e-mail).
+- Data for all tutorials are available [here](https://github.com/czymara/longanalysisSS22/blob/main/data/longanalysis_datasets.zip?raw=true) (password will be made available via e-mail).
 
 | # | Date | Topic | Lecture | Tutorial | Literature |
 | --- | --- | --- | --- | --- | --- |
