@@ -43,9 +43,8 @@ Für Fragen und Probleme (insbesondere zu R) steht Subin Chang zur Verfügung un
 | 08 | 09.06. | Research on potential data sets | - | - | Overview of data sets |
 | - | 16.06. | Fronleichnam | - | - |  - |
 | 09 | 23.06. | Linear and non-linear probability models | tba | tba | Mood (2010). [Logistic regression: Why we cannot do what we think we can do, and what we can do about it](https://academic.oup.com/esr/article/26/1/67/540767). European Sociological Review 26 (1). 67 - 82. |
-| 10 | 23.06. | Logistic Fixed & Random Eﬀects models | tba | tba | Andreß, Golsch & Schmidt (2014). Applied panel data analysis for economic and social surveys. Chapter 5.1. Springer Science & Business Media |
-| 11 | 30.06. | Natural experiments | tba | tba |  Muñoz, Falcó-Gimeno & Hernández (2020). [Unexpected event during survey design: Promise and pitfalls for causal inference](cambridge.org/core/journals/political-analysis/article/unexpected-event-during-survey-design-promise-and-pitfalls-for-causal-inference/E9DB24A62172D1EB2116FEFFEAE45998). Political Analysis 28 (2). 186 - 206. |
-| 12 | 07.07. | Specify research question | - | - | - |
-| 13 | 14.07. | Abschlusssitzung | - | - |  Academy of Sociology (2020). [Checklist for Quantitative Social Science Articles](https://osf.io/mw59u/). |
+| 10 | 30.06. | Logistic Fixed & Random Eﬀects models | tba | tba | Andreß, Golsch & Schmidt (2014). Applied panel data analysis for economic and social surveys. Chapter 5.1. Springer Science & Business Media |
+| 11 | 07.07. | Specify research question | - | - | - |
+| 12 | 14.07. | Abschlusssitzung | - | - |  Academy of Sociology (2020). [Checklist for Quantitative Social Science Articles](https://osf.io/mw59u/). |
 
 
