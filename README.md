@@ -32,7 +32,7 @@ Für Fragen und Probleme (insbesondere zu R) steht Subin Chang zur Verfügung un
 
 | # | Date | Topic | Lecture | Tutorial | Literature |
 | --- | --- | --- | --- | --- | --- |
-| 01 | 14.04. | Welcome & introduction to R | [Slides (coming soon)](https://htmlpreview.github.io/?https://github.com/czymara/xxx) | [Task](https://htmlpreview.github.io/?https://github.com/czymara/longanalysisSS22/blob/main/exercises/ALD_tutorial_01.html) | Wickham & Grolemund (2017). [R for Data Science.](https://r4ds.had.co.nz/) O'Reilly. |
+| 01 | 14.04. | Welcome & introduction to R | [Slides](https://github.com/czymara/longanalysisSS22/blob/main/slides/ALD_slides_01.pdf) | [Task](https://htmlpreview.github.io/?https://github.com/czymara/longanalysisSS22/blob/main/exercises/ALD_tutorial_01.html) | Wickham & Grolemund (2017). [R for Data Science.](https://r4ds.had.co.nz/) O'Reilly. |
 | 02 | 21.04. | Directed acyclic graphs | tba | tba |  Elwert (2013). [Graphical causal models](https://link.springer.com/chapter/10.1007/978-94-007-6094-3_13). In: Handbook of causal analysis for social research (245 - 273). Springer Science & Business Media. |
 | 03 | 28.04. | Linear regression with cross-sectional and longitudinal data | tba | tba | Cinelli, Forney & Pearl (forthcoming). [A crash course in good and bad controls](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf). Sociological Methods and Research. |
 | 04 | 05.05. | Preparing panel data | tba | tba | Andreß, Golsch & Schmidt (2014). [Applied panel data analysis for economic and social surveys](https://link.springer.com/book/10.1007/978-3-642-32914-2). Chapter 2 (15 - 48). Springer Science & Business Media |
