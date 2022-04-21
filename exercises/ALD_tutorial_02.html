@@ -13,104 +13,11 @@
 <meta name="author" content="Dr. Christian Czymara" />
 
 
-<title>Tutorial 01: R basics</title>
+<title>Tutorial 02: Directed acyclic graphs</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
-a.sourceLine {
-  pointer-events: auto;
-}
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -129,7 +36,7 @@ a.sourceLine {
 
 <header>
 <div class="inner">
-<h1 class="title toc-ignore">Tutorial 01: R basics</h1>
+<h1 class="title toc-ignore">Tutorial 02: Directed acyclic graphs</h1>
 <h2 class="subtitle">Forschungspraktikum I und II: Längsschnittdatenanalyse in R</h2>
 <h3 class="author">Dr. Christian Czymara</h3>
 </div>
@@ -140,148 +47,27 @@ a.sourceLine {
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<p>This tutorial will introduce the basic logic of R. In a next step, we will analyze the data from the survey you took. But first some general remarks on the tutorials.</p>
-<div id="notebooks" class="section level2">
-<h2>0. Notebooks</h2>
-<p>Each tutorial is a notebook containing mostly text, and sometimes R code chunks. You can copy and paste the code to your R script, but will have to adapt it in most cases. I will upload solutions to exercises that include the full code in the week following the respective session.</p>
+<p>Let us examine the theoretical basis of causal inference models. To this end, we will not work with Stata but with <a href="http://www.dagitty.net/dags.html">DAGitty</a> (I will present results using the <a href="http://dagitty.net/primer/">dagitty package</a> for R).</p>
+<div id="effect-of-life-satisfaction-on-smoking" class="section level2">
+<h2>1. Effect of life satisfaction on smoking</h2>
+<p>We want to estimate the causal effect of <em>life satisfaction</em> (treatment) on <em>smoking</em> (outcome). Using DAGitty, draw a simple DAG where <span class="math inline">\(life satisfaction -&gt; smoking\)</span> withouth any other variables.</p>
 </div>
-<div id="objects" class="section level2">
-<h2>1. Objects</h2>
-<div id="a-creating-objects" class="section level3">
-<h3>a) Creating objects</h3>
-<p>Let us start with some R basics. In contrast to, for example, Stata or SPSS, R is <em>object-oriented</em>, meaning that you can store every result in an object. You create an object using the <code>&lt;-</code> operator. Let’s say we want a very simply object that we call <code>x</code> that should just have the value <code>1</code>. Put differently, we want to assign 1 to the object x. The code for this operation is thus: <code>x &lt;- 1</code>. Now you will see the object <code>x</code> in the upper right panel of your RStudio window (“Environment”). You can “call” this object (i. e., see its content) by writing <code>x</code> in your code, selecting it and pressing cmd+enter. Alternatively, you can type <code>x</code> into the “Console” below (but then it will be lost once you close your current RStudio session).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create x</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># call x</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
+<div id="socio-economic-status" class="section level2">
+<h2>2. Socio-economic status</h2>
+<p>The problem of the simple causal model of 1. is that life satisfaction is not randomly assigned to individuals: On average, having a higher socio-economic status (SES) makes people more satisfied with their life and people with a higher SES tend to smoke less. This self-selection results in a biased association for the naïve estimate of the life satisfaction effect. Add SES to the DAG. What type of variable is SES in this scenario? What implication does this have for the causal effect of life satisfaction?</p>
 </div>
-<div id="b-numeric-variables" class="section level3">
-<h3>b) Numeric variables</h3>
-<p>Just storing a single value in an object is not very helpful most of the time. You can, for example, create a numeric object that contains the numbers 1 and 2 by assigning <code>c(1, 2)</code> to <code>x</code> (c is for “concatenate”). Note that assigning this list to the <code>x</code> object overwrites the old value of <code>x</code>. Hence, it’s often helpful to give different names to your objects. Create a numeric object called <code>x_num</code> that contains the values 1 to 5.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create numeric from 1 to 5</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x_num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x_num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
+<div id="drinking" class="section level2">
+<h2>3. Drinking</h2>
+<p>People who are dissatisfied with their lives also tend to show more other risky health behavior such as heavy drinking. At the same time, heavy drinking is more prevalent among people with lower SES, and people who drink alcohol are more likely to start smoking. Add these arrows to the DAG. Which paths of this DAG are causal for the effect of life satisfaction on smoking? Which are non-causal? Which type of variable is drinking?</p>
 </div>
-<div id="c-categorical-variables" class="section level3">
-<h3>c) Categorical variables</h3>
-<p>Not all data come in numbers. Sometimes, you get information in text. Text information is typically stored in a so-called <em>character</em>. If you assign <code>c(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;)</code> to <code>x_char</code>, R automatically creates a character object. Try it. If you are not sure whether a variable is numeric or character, you can use the <code>typeof()</code> function (e.g.: <code>typeof(x_char)</code>).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># numeric</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x_num)</span></code></pre></div>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># character</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x_char <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>, <span class="st">&quot;four&quot;</span>, <span class="st">&quot;five&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x_char)</span></code></pre></div>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<p>When performing regression analysis, however, we usually don’t want text, but distinct categories. In this case, we sometimes have to transform the character to a so called <em>factor</em> variable using <code>factor()</code>. This corresponds to the crucial distinction between <em>continuous</em> (numeric) and <em>categorical</em> (factor) variables. Create an <code>x_factor</code> object that is <code>x_char</code> as factor.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># factor</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(x_char)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x_factor)</span></code></pre></div>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
+<div id="health" class="section level2">
+<h2>4. Health</h2>
+<p>Smoking and drinking alcohol both lead to heath problems. Add health to the DAG. Which type of variable is health? What are the causal implications?</p>
 </div>
-<div id="c-data-frames" class="section level3">
-<h3>c) Data frames</h3>
-<p>When working with real data, we usually aren’t analyzing single objects (variables), but various variables stored in a data set (called <em>data frames</em> in R). In contrast to, for example, Stata, you can work with many data sets in the same environment, which is awesome. To access variables within a data set use the <code>$</code> operator (e.g.: <code>data$variable</code>). Before having a look at real-world data, let’s create a data set that includes our two variables <code>x_num</code> and <code>x_factor</code>. Create this by assigning <code>data.frame(x_num, x_factor)</code> to a new object we call <code>dataset</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate empty data frame</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dataset  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x_num, x_factor)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># note: this only works because x_num a nd x_factor have the same length (5):</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>x_num_new <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>dataset  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x_num_new, x_factor) <span class="co"># error!</span></span></code></pre></div>
-<pre><code>## Error in data.frame(x_num_new, x_factor): Argumente implizieren unterschiedliche Anzahl Zeilen: 6, 5</code></pre>
-<p>Most often, there a many ways to get to the same result. As an alternative, we could use <code>cbind()</code> to bind <code>x_num</code> and <code>x_factor</code> to two columns, and then transform this to a data frame object.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assign both variables</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">cbind</span>(x_num, x_factor)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># however...</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(dataset) <span class="co"># not a data frame, so</span></span></code></pre></div>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>x_num <span class="co"># doesn&#39;t work</span></span></code></pre></div>
-<pre><code>## Error in dataset$x_num: $ operator is invalid for atomic vectors</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># solution:</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dataset)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>dataset<span class="sc">$</span>x_num</span></code></pre></div>
-<pre><code>## [1] 1 2 3 4 5</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importantly, R allows to nest functions, so we could simply write:</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(x_num, x_factor))</span></code></pre></div>
-</div>
-</div>
-<div id="real-world-data" class="section level2">
-<h2>2. Real-world data</h2>
-<div id="a-load-data" class="section level3">
-<h3>a) Load data</h3>
-<p>Let us apply what we’ve just learned to “real” data, i. e., the survey you took. To load the data, we need to use the <code>load()</code> function. <code>load()</code> loads R objects into your current environment. To do that, you need to specify the <em>path</em> where you stored the file <code>FoPra_sose22.RData</code>. Make sure you put this path in quotation marks (e. g.: <code>load(&quot;U:/.../FoPra_sose22.RData&quot;)</code>). <em>Importantly, you need to use a slash (/) here, not a backslash (\).</em></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;C:/Users/czymara.local/Nextcloud/teaching/FoP longitudinal/_r/data/FoPra_sose22.RData&quot;</span>)</span></code></pre></div>
-</div>
-<div id="b-explore-data-set" class="section level3">
-<h3>b) Explore data set</h3>
-<p>When you loaded the file successfully, the data frame <code>FoPra_data_reduc</code> should appear in the Environment panel. You can have a look at the data with the <code>View()</code> function (upper case V). How many students took part in the survey?</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># observarions</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(FoPra_data_reduc)</span></code></pre></div>
-<pre><code>## [1] 12</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variables</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(FoPra_data_reduc)</span></code></pre></div>
-<pre><code>## [1] 12</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(FoPra_data_reduc)</span></code></pre></div>
-<pre><code>## [1] 12</code></pre>
-</div>
-</div>
-<div id="descriptive-analyses" class="section level2">
-<h2>3. Descriptive analyses</h2>
-<div id="a-number-of-r-users" class="section level3">
-<h3>a) Number of R users</h3>
-<p>Let us have a look at the distribution of prior experience of working with R (variable <code>software_r</code>). Perhaps the easiest way to do this is using the <code>table()</code> function. How many students usually work with R? How many percent is that?</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># absolute numbers</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(FoPra_data_reduc<span class="sc">$</span>software_r)</span></code></pre></div>
-<pre><code>## 
-## FALSE  TRUE 
-##     5     7</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># relative numbers</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(FoPra_data_reduc<span class="sc">$</span>software_r)), <span class="dv">2</span>))</span></code></pre></div>
-<pre><code>## 0.42 0.58</code></pre>
-</div>
-<div id="b-generate-age-variable" class="section level3">
-<h3>b) Generate age variable</h3>
-<p>Next, we are interested in age. We don’t know respondents’ age yet, but we know their year of birth (<code>birthyear</code>) and which year it is at the moment. Within the data frame <code>FoPra_data_reduc</code>, create a new variable <code>age</code> that calculates each person’s age. How old is our group on average?</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>FoPra_data_reduc<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">format</span>(<span class="fu">Sys.Date</span>(), <span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)) <span class="sc">-</span> <span class="fu">as.numeric</span>(FoPra_data_reduc<span class="sc">$</span>birthyear) <span class="co"># here I extract the year from the system date</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mean</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(FoPra_data_reduc<span class="sc">$</span>age, <span class="at">na.rm=</span>T) <span class="co"># na.rm=T tells R to remove  missing values</span></span></code></pre></div>
-<pre><code>## [1] 25.58333</code></pre>
-</div>
-<div id="c-age-per-group" class="section level3">
-<h3>c) Age per group</h3>
-<p>What is the age of those who have run a linear regression before? Hint: Check out the examples in <code>?aggregate()</code>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(age <span class="sc">~</span> linear,</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>          FoPra_data_reduc,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          mean,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">na.rm=</span><span class="cn">TRUE</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">na.action =</span> na.omit) <span class="co"># again, remove missings</span></span></code></pre></div>
-<pre><code>##   linear  age
-## 1    Yes 25.9
-## 2     No 24.0</code></pre>
-</div>
-<div id="c-knowledge-status-variable" class="section level3">
-<h3>c) Knowledge status variable</h3>
-<p>Use <code>mutate()</code> to generate a new variable <code>&quot;status&quot;</code> that has three values: <code>&quot;expert&quot;</code> for students who have already worked with with panel data before <em>and</em> usually work with R, <code>&quot;advanced&quot;</code> if some has used at least one statistics software before <em>and</em> has an above average (i.e. sample mean) value in the their familiarity with regression (<code>regression</code>, needs to be converted to numeric!); and <code>&quot;novice&quot;</code> otherwise. How many people are in each group?</p>
-<p><code>mutate()</code> is part of the <code>tidyverse</code> package collection. When you’ve installed R for the first time, install the packages using <code>install.packages(tidyverse)</code> and then load them using <code>library(tidyverse)</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>FoPra_data_reduc<span class="sc">$</span>regression <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(FoPra_data_reduc<span class="sc">$</span>regression)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>FoPra_data_reduc <span class="sc">%&lt;&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">ifelse</span>(software_r <span class="sc">==</span> T <span class="sc">&amp;</span> knowledge <span class="sc">==</span> <span class="st">&quot;I have already worked with panel data myself&quot;</span>,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;expert&quot;</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">ifelse</span>(num_software <span class="sc">&gt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span> regression <span class="sc">&gt;</span> <span class="fu">mean</span>(FoPra_data_reduc<span class="sc">$</span>regression),</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;advanced&quot;</span>,</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;novice&quot;</span>)))</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(FoPra_data_reduc<span class="sc">$</span>status)</span></code></pre></div>
-<pre><code>## 
-## advanced   novice 
-##        5        7</code></pre>
-</div>
+<div id="socio-demographic-variables" class="section level2">
+<h2>5. Socio-demographic variables</h2>
+<p>Where in the DAG would you put socio-demographic variables such as age and gender? Which types of variables would each of them be? Can you think of any other aspects that should play a role in this causal process?</p>
+<p>Taken together, what does all this information mean for the selection of control variables in your statistical model?</p>
 </div>
     </section>
   </div>
