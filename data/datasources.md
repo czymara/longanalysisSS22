@@ -11,7 +11,7 @@
 | Socio-Economic Panel (*SOEP*) | Broad-based, representative longitudinal study of private households in Germany, representative micro data to measure stability and changes in living conditions | Germany | 1984-2020 | [diw.de](https://www.diw.de/de/diw_02.c.222516.de/datensaetze.html) | After filling out the user form |
 | Survey of Health, Ageing and Retirement in Europe (*SHARE*) | Survey focusing on health, aging and pensions in Europe with participants aged 50 and over, useful for examining the effects of health, social, economic and environmental policies on the life course of Europeans | 28 European states plus Israel | 2004-2020 | [share-project.org](http://www.share-project.org/home0.html) | After filling out the user form |
 | *Swiss Household Panel* | Survey on social change and living conditions in Switzerland | Switzerland | 1999-2020 | [forsbase.unil.ch](https://forsbase.unil.ch/) | Download available after registration |
-| *Understanding Society*: the UK Household Longitudinal Study | Survey on social change and living conditions in the UK | UK | 2009-2021 | [understandingsociety.ac.uk](https://www.understandingsociety.ac.uk/) | Download available after registration |
+| *Understanding Society*: the UK Household Longitudinal Study | Survey on social change and living conditions in the UK | UK | 2009-2021 | [understanding society.ac.uk](https://www.understandingsociety.ac.uk/) | Download available after registration |
 
 Also see [this overview](https://en.wikipedia.org/wiki/Longitudinal_study#Examples) (not limited to social sciences)
 
