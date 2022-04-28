@@ -13,104 +13,11 @@
 <meta name="author" content="Dr. Christian Czymara" />
 
 
-<title>Tutorial 02: Directed acyclic graphs</title>
+<title>Tutorial 03: Directed acyclic graphs</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
-a.sourceLine {
-  pointer-events: auto;
-}
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -129,7 +36,7 @@ a.sourceLine {
 
 <header>
 <div class="inner">
-<h1 class="title toc-ignore">Tutorial 02: Directed acyclic graphs</h1>
+<h1 class="title toc-ignore">Tutorial 03: Directed acyclic graphs</h1>
 <h2 class="subtitle">Forschungspraktikum I und II: Längsschnittdatenanalyse in R</h2>
 <h3 class="author">Dr. Christian Czymara</h3>
 </div>
@@ -140,231 +47,43 @@ a.sourceLine {
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<p>Let us examine the theoretical basis of causal inference models. To this end, we will not work with R but with <a href="http://www.dagitty.net/dags.html">DAGitty</a>. I will present results using the <a href="http://dagitty.net/primer/">dagitty package</a> for R. A Tutorial for DAGitty is available <a href="http://www.dagitty.net/learn/index.html">here</a>.</p>
-<div id="effect-of-life-satisfaction-on-smoking" class="section level2">
-<h2>1. Effect of life satisfaction on smoking</h2>
-<p>We want to estimate the causal effect of <em>life satisfaction</em> (treatment, in DAGitty called exposure) on <em>smoking</em> (outcome). Using DAGitty, draw a simple DAG where <span class="math inline">\(life satisfaction -&gt; smoking\)</span> withouth any other variables.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dagitty)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>DAG_1 <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">&#39;dag {</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction [pos=&quot;0,1&quot;]</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking [pos=&quot;1,1&quot;]</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; smoking</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DAG_1)</span></code></pre></div>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAAAWlBMVEUAAAAAADoAAGYAOpAAZrY6AAA6ADo6Ojo6kNtmAABmADpmtrZmtv+QOgCQkGaQtpCQ2/+2ZgC2tma225C2//++vr7bkDrb/7bb////tmb/25D//7b//9v///+J/y45AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAHS0lEQVR4nO3aDVMTVwBA0UWhJW1sSVtpA+b//83ubrIhQfGjaL2D58wkiO8xi8N9bz9w2EHY8L2/AfgYgZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZQ0gZImUNIESppASRMoaQIlTaCkCZRv7n51ffi4/uKvFSjf3BLof/FlgW7X56vgdhjeP/TjSbxAb99+weT/LdDH3X3wwOL8MZwnenc1DMN6/PDraty0ps+mCrbDvIPNndwO11Ma96tpxjS4GYaL3y5uPnGYZwb6gRYF+qM4SfTuaj3luL67Gou7HV79tbsdX+NfjDlczoHeDvsT6/1qmjG+NvOE5wV6WBZz7PPyGIbXf0/97Qem9/Eom8Ok6YQ/XD5Melg/y5rhhTkmuh07mNxdXR/f1u/eTCfY7cXNGOjU6iHQ/eCc9G7zrECXZbHbXO7m6PcHWB8H5s1yGTzMuF4mnayfw5pZ/lG8JPMP9X61L3QuY3nbNzi+369+nu9VjmmMb/ukt88KdFkW97/c7I+6HOA4MH3+MPjwLGF6na6fwzfNS3PcQt+9OZxk3wt0bGHcon7/6eY80NuvEOiyLCbbYXgIdBlYLje3x+9ttzvfZvfrZ+3K9EV6dCs/nq+f2kGvd5vX/3z1HXRZFtPF5as/T3bQZWD+8zJ499P+WOeBzutHoC/Re0+axp/xWaBn59DTM/Bx5smV31M+eRd/uiyOBzgMHDuc3uygP5TzPOedcPtoBz27i5/u2k8D/Sp38ZNlN94OjwI97I0ng09egwr0xXm8e05PbMbYzgM9ew46lnoW6PT059UfDxeRT/joTdLJsrhfjUeaDjRHeRhYNsp5cN6u3725XCadrB+B8mHbZwW6LIvpMvPiZnpktTk84jwMLNeg+8H9c9DdcdLD+hEoj8077Gf8DtR/FuH7mLavz/j1jUBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRKmkBJEyhpAiVNoKQJlDSBkiZQ0gRK2r8PvnxaEayzXAAAAABJRU5ErkJggg==" /><!-- --></p>
+<p>Do children make happy? We are interested in the impact of having children (<span class="math inline">\(x\)</span>: <code>no_kids</code>) on life satisfaction (<span class="math inline">\(y\)</span>: <code>satisf_org</code>). We will analyze data of the <a href="https://www.diw.de/en/soep">German Socio-Economic Panel (GSOEP)</a>, one of the most popular panel data</p>
+<div id="importing-data" class="section level2">
+<h2>1. Importing data</h2>
+<p>In the last tutorial, we could simply load the data into our environment using the <code>load()</code> function. This worked because the data were stored in R’s own .RData format. However, to this day I’m not aware of a single survey program (or other data source) that offers downloads in this format. Thus, we will have to <em>import</em> some other data format to R. In this case, we have the data available in Stata’s .dta format (as provided through the ESS website). To import .dta-files is we need a new package: <code>haven</code>. Install (<code>install.packages(&quot;haven&quot;)</code>) and load (<code>library(haven)</code>) this package.</p>
+<p>After having loaded the <code>haven</code> package, we can use its <code>read_dta()</code>-function. Use it to import the soep_lebensz_en_edit.dta file by assigning the data to an object called <code>SOEP</code>.</p>
 </div>
-<div id="socio-economic-status" class="section level2">
-<h2>2. Socio-economic status</h2>
-<p>The problem of the simple causal model of 1. is that life satisfaction is not randomly assigned to individuals: On average, having a higher socio-economic status (SES) makes people more satisfied with their life and people with a higher SES tend to smoke less. This self-selection results in a biased association for the naïve estimate of the life satisfaction effect. Add SES to the DAG. What type of variable is SES in this scenario? What implication does this have for the causal effect of life satisfaction?</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DAG_2 <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">&#39;dag {</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction [pos=&quot;0,1&quot;]</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking [pos=&quot;1,1&quot;]</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SES [pos=&quot;.5,.5&quot;]</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; smoking</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; satisfaction</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; smoking</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DAG_2)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_2, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>)</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; smoking&quot;        &quot;satisfaction &lt;- SES -&gt; smoking&quot;
-## 
-## $open
-## [1] TRUE TRUE</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first path is the causal path we want, so it should be open</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># However, the second path is confounded, so it should not be open</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Controlling for SES solves this problem</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">adjustmentSets</span>(DAG_2, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="at">type=</span><span class="st">&quot;minimal&quot;</span> )</span></code></pre></div>
-<pre><code>## { SES }</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_2, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;SES&quot;</span>)</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; smoking&quot;        &quot;satisfaction &lt;- SES -&gt; smoking&quot;
-## 
-## $open
-## [1]  TRUE FALSE</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; SES is a confounder here</span></span></code></pre></div>
+<div id="data-exploration" class="section level2">
+<h2>2. Data exploration</h2>
+<p>Which survey waves are included in this data set? How large is the number of observations in total? What does “observation” refer to here? How many respondents are in the data?</p>
 </div>
-<div id="alcohol" class="section level2">
-<h2>3. Alcohol</h2>
-<p>Less life satisfaction can also lead to other risky health behavior such as heavy drinking. At the same time, a lower SES can also lead to heavy drinking, and people who drink alcohol are more likely to start smoking. Add these arrows to the DAG. Which paths of this DAG are causal for the effect of life satisfaction on smoking? Which are non-causal? Which type of variable is drinking?</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>DAG_3 <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">&#39;dag {</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction [pos=&quot;0,1&quot;]</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking [pos=&quot;1,1&quot;]</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SES [pos=&quot;.75,.5&quot;]</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking [pos=&quot;.25,.5&quot;]</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; smoking</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; satisfaction</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; smoking</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; drinking</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; drinking</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking -&gt; smoking</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DAG_3)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_3, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;SES&quot;</span>)</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; drinking -&gt; smoking&quot;       
-## [2] &quot;satisfaction -&gt; drinking &lt;- SES -&gt; smoking&quot;
-## [3] &quot;satisfaction -&gt; smoking&quot;                   
-## [4] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; smoking&quot;
-## [5] &quot;satisfaction &lt;- SES -&gt; smoking&quot;            
-## 
-## $open
-## [1]  TRUE FALSE  TRUE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 and 3 are causal, the others are not</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># None of the none causal paths are open when we control for SES, 2 of 3 non-causal paths are open if we do not control</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_3, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;SES&quot;</span>, <span class="st">&quot;drinking&quot;</span>))</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; drinking -&gt; smoking&quot;       
-## [2] &quot;satisfaction -&gt; drinking &lt;- SES -&gt; smoking&quot;
-## [3] &quot;satisfaction -&gt; smoking&quot;                   
-## [4] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; smoking&quot;
-## [5] &quot;satisfaction &lt;- SES -&gt; smoking&quot;            
-## 
-## $open
-## [1] FALSE FALSE  TRUE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Controlling for drinking would (unnesscarily) close the causal path satisfaction -&gt; drinking -&gt; smoking (resulting only in the direct effect of smoking)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; drinking is a mediator here</span></span></code></pre></div>
+<div id="wave" class="section level2">
+<h2>3. 2001 wave</h2>
+<p>The perhaps easiest way to ignore the panel structure is to turn the data into a cross-section. Hence, only keep observations from 2001.</p>
+<div id="a-outcome" class="section level3">
+<h3>a) Outcome</h3>
+<p>Our depended variable is life satisfaction (<code>satisf_org</code>). What’s the scale of this variable? On average, how satisfied were people with their life in 2001?</p>
 </div>
-<div id="health" class="section level2">
-<h2>4. Health</h2>
-<p>Smoking and drinking alcohol both lead to heath problems. Add health to the DAG. Which type of variable is health? What are the causal implications?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>DAG_4 <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">&#39;dag {</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction [pos=&quot;0,1&quot;]</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking [pos=&quot;1,1&quot;]</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SES [pos=&quot;.75,.5&quot;]</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking [pos=&quot;.25,.5&quot;]</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st">    health [pos=&quot;.5,1.5&quot;]</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; smoking</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; satisfaction</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; smoking</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; drinking</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; drinking</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking -&gt; smoking</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking -&gt; health</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking -&gt; health</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span>)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DAG_4)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_4, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;SES&quot;</span>)</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; drinking -&gt; health &lt;- smoking&quot;       
-## [2] &quot;satisfaction -&gt; drinking -&gt; smoking&quot;                 
-## [3] &quot;satisfaction -&gt; drinking &lt;- SES -&gt; smoking&quot;          
-## [4] &quot;satisfaction -&gt; smoking&quot;                             
-## [5] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; health &lt;- smoking&quot;
-## [6] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; smoking&quot;          
-## [7] &quot;satisfaction &lt;- SES -&gt; smoking&quot;                      
-## 
-## $open
-## [1] FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">paths</span>(DAG_4, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;SES&quot;</span>)<span class="sc">$</span>open)</span></code></pre></div>
-<pre><code>## 
-## FALSE  TRUE 
-##     5     2</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only causal paths are open</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span>(DAG_4, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;SES&quot;</span>, <span class="st">&quot;health&quot;</span>))</span></code></pre></div>
-<pre><code>## $paths
-## [1] &quot;satisfaction -&gt; drinking -&gt; health &lt;- smoking&quot;       
-## [2] &quot;satisfaction -&gt; drinking -&gt; smoking&quot;                 
-## [3] &quot;satisfaction -&gt; drinking &lt;- SES -&gt; smoking&quot;          
-## [4] &quot;satisfaction -&gt; smoking&quot;                             
-## [5] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; health &lt;- smoking&quot;
-## [6] &quot;satisfaction &lt;- SES -&gt; drinking -&gt; smoking&quot;          
-## [7] &quot;satisfaction &lt;- SES -&gt; smoking&quot;                      
-## 
-## $open
-## [1]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">paths</span>(DAG_4, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;SES&quot;</span>, <span class="st">&quot;health&quot;</span>))<span class="sc">$</span>open)</span></code></pre></div>
-<pre><code>## 
-## FALSE  TRUE 
-##     4     3</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Controlling for health opens the non-causal path satisfaction -&gt; drinking -&gt; health &lt;- smoking</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --&gt; health is a collider here</span></span></code></pre></div>
+<div id="b-linear-model" class="section level3">
+<h3>b) Linear model</h3>
+<p>Use the <code>lm()</code> function of base R to tegress <code>satisf_org</code> on <code>no_kids</code>, controlling for the confounding variables <code>education</code>, <code>health_org</code> and <code>sex</code>. Treat all variables as continuous and sex as a dummy. According to this model, does having children influence one’s life satisfaction? How strongly?</p>
 </div>
-<div id="socio-demographic-variables" class="section level2">
-<h2>5. Socio-demographic variables</h2>
-<p>Where in the DAG would you put socio-demographic variables such as age and gender? Which types of variables would each of them be? Can you think of any other aspects that should play a role in this causal process?</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>DAG_5 <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">&#39;dag {</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction [pos=&quot;0,1&quot;]</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking [pos=&quot;1,1&quot;]</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SES [pos=&quot;.75,.5&quot;]</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking [pos=&quot;.25,.5&quot;]</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">    health [pos=&quot;.5,1.5&quot;]</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="st">    age [pos=&quot;.25,1.5&quot;]</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">    gender [pos=&quot;.75,1.5&quot;]</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; smoking</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; satisfaction</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; smoking</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="st">    satisfaction -&gt; drinking</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="st">    SES -&gt; drinking</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking -&gt; smoking</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="st">    drinking -&gt; health</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="st">    smoking -&gt; health</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="st">    age -&gt; satisfaction</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="st">    age -&gt; health</span></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="st">    age -&gt; smoking</span></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="st">    age -&gt; drinking</span></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="st">    age -&gt; SES</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="st">    gender -&gt; smoking</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="st">    gender -&gt; drinking</span></span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="st">    gender -&gt; SES</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span>)</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DAG_5)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">adjustmentSets</span>(DAG_5, <span class="st">&quot;satisfaction&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="at">type=</span><span class="st">&quot;minimal&quot;</span> )</span></code></pre></div>
-<pre><code>## { SES, age }</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With this DAG, it would be sufficient to control SES and age</span></span></code></pre></div>
-<p>Taken together, what does all this information mean for the selection of control variables in your statistical model?</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>SES and age have to be controlled, health should NOT be controlled for.</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>However, whether this DAG is plausible or not remains are theoretical question<span class="sc">!</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>DAGitty code<span class="sc">:</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>dag {</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>bb<span class="ot">=</span><span class="st">&quot;0,0,1,1&quot;</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>SES [adjusted,pos<span class="ot">=</span><span class="st">&quot;0.427,0.242&quot;</span>]</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>age [adjusted,pos<span class="ot">=</span><span class="st">&quot;0.663,0.266&quot;</span>]</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>drinking [pos<span class="ot">=</span><span class="st">&quot;0.432,0.605&quot;</span>]</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>gender [pos<span class="ot">=</span><span class="st">&quot;0.698,0.436&quot;</span>]</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>health [pos<span class="ot">=</span><span class="st">&quot;0.588,0.587&quot;</span>]</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>satisfaction [exposure,pos<span class="ot">=</span><span class="st">&quot;0.241,0.443&quot;</span>]</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>smoking [outcome,pos<span class="ot">=</span><span class="st">&quot;0.585,0.452&quot;</span>]</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>SES <span class="ot">-&gt;</span> drinking</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>SES <span class="ot">-&gt;</span> satisfaction</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>SES <span class="ot">-&gt;</span> smoking</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>age <span class="ot">-&gt;</span> SES</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>age <span class="ot">-&gt;</span> drinking</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>age <span class="ot">-&gt;</span> health</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>age <span class="ot">-&gt;</span> satisfaction</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>age <span class="ot">-&gt;</span> smoking</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>drinking <span class="ot">-&gt;</span> health</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>drinking <span class="ot">-&gt;</span> smoking</span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">-&gt;</span> SES</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">-&gt;</span> drinking</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">-&gt;</span> smoking</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>satisfaction <span class="ot">-&gt;</span> drinking</span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>satisfaction <span class="ot">-&gt;</span> smoking</span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>smoking <span class="ot">-&gt;</span> health</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="full-data" class="section level2">
+<h2>4. Full data</h2>
+<p>Now, let us examine the full data.</p>
+<div id="a-linear-model" class="section level3">
+<h3>a) Linear model</h3>
+<p>Re-estimate the model from 3.b. with the full data <code>SOEP</code> (so-called <em>pooled OLS model</em>). Compare the results to 3.b). Do you see any systematic difference between the two? Which model would you trust more and why?</p>
+</div>
+<div id="b-cluster-robust-standard-errors" class="section level3">
+<h3>b) Cluster-robust standard errors</h3>
+<p>One solution to tackle the issue of statistical dependence is cluster robust standard errors. One way to get robust standard errors is to use the <code>lm_robust()</code> function of the <code>estimatr</code> package. <code>lm_robust()</code> otherwise works exactly like <code>lm()</code> (check <code>?lm_robust()</code> for help). In our cases, interviews cluster in respondents indicated by the variable <code>id</code>. Run a model that clusters standard errors by <code>id</code> (use the White standard error <code>CR0</code>). Compare the results to the model without robust standard errors.</p>
+</div>
+<div id="c-tables" class="section level3">
+<h3>c) Tables</h3>
+<p>A very nice way to create tables in R are the packages of <a href="https://github.com/strengejacke">Daniel Lüdecke</a>, like <code>sjPlot</code>. Install and load <code>sjPlot</code>. Then use its <code>tab_model</code> function to create a table for the models we estimated in 3.b), 4.a), and 4.b).</p>
+</div>
 </div>
     </section>
   </div>
