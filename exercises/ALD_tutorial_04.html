@@ -13,7 +13,7 @@
 <meta name="author" content="Dr. Christian Czymara" />
 
 
-<title>Tutorial 03: Linear regression with cross-sectional and longitudinal data</title>
+<title>Tutorial 04: Preparing panel data</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -30,99 +30,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
-a.sourceLine {
-  pointer-events: auto;
-}
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -141,8 +48,7 @@ a.sourceLine {
 
 <header>
 <div class="inner">
-<h1 class="title toc-ignore">Tutorial 03: Linear regression with
-cross-sectional and longitudinal data</h1>
+<h1 class="title toc-ignore">Tutorial 04: Preparing panel data</h1>
 <h2 class="subtitle">Forschungspraktikum I und II:
 Längsschnittdatenanalyse in R</h2>
 <h3 class="author">Dr. Christian Czymara</h3>
@@ -154,300 +60,131 @@ Längsschnittdatenanalyse in R</h2>
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<p>Do children make happy? We are interested in the impact of having
-children (<span class="math inline">\(x\)</span>: <code>no_kids</code>)
-on life satisfaction (<span class="math inline">\(y\)</span>:
-<code>satisf_org</code>). We will analyze data of the <a href="https://www.diw.de/en/soep">German Socio-Economic Panel
-(GSOEP)</a>, one of the most popular panel data</p>
-<div id="importing-data" class="section level2">
-<h2>1. Importing data</h2>
-<p>In the first tutorial, we could simply load the data into our
-environment using the <code>load()</code> function. This worked because
-the data were stored in R’s own .RData format. However, to this day I’m
-not aware of a single survey program (or other data source) that offers
-downloads in this format. Thus, we will have to <em>import</em> some
-other data format to R. In this case, we have the data available in
-Stata’s .dta format. To import .dta-files is we need a new package:
-<code>haven</code>. Install (<code>install.packages(&quot;haven&quot;)</code>) and
-load (<code>library(haven)</code>) this package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install package (if not already installed), then load package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(haven)){</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;haven&quot;</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(haven)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
-<p>After having loaded the <code>haven</code> package, we can use its
-<code>read_dta()</code>-function. Use it to import the
-soep_lebensz_en_edit.dta file by assigning the data to an object called
-<code>SOEP</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SOEP <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">&quot;C:/Users/czymara.local/Nextcloud/teaching/FoP longitudinal/_r/data/soep_lebensz_en_edit.dta&quot;</span>)</span></code></pre></div>
+<p>In this exercise, we will start with raw data of the GSOEP. Since the
+data are longitudinal and household-based, the structure of the GSOEP is
+quite complex and it is crucial to understand its format of panel data.
+The GSOEP consists of many single data files. There are different files
+for different topics, for different waves, for household and
+individual-level data, and for adult and children data. We want to focus
+the question: How did income develop between 2004 and 2006?</p>
+<div id="income-on-household-level" class="section level2">
+<h2>1. Income on household level</h2>
+<div id="a-import-data-sets" class="section level3">
+<h3>a) Import data sets</h3>
+<p>First, we are interested in income on the household level. We have
+information on the household income for three years, each in a different
+dataset: hhincome2004.dta, hhincome2005.dta, hhincome2006.dta. Import
+all three data sets and have a look at them</p>
 </div>
-<div id="data-exploration" class="section level2">
-<h2>2. Data exploration</h2>
-<p>Which survey waves are included in this data set? How large is the
-number of observations in total? What does “observation” refer to here?
-How many respondents are in the data?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># survey waves</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SOEP<span class="sc">$</span>year)</span></code></pre></div>
-<pre><code>## 
-## 2000 2001 2002 2003 2004 
-## 3000 2248 1965 1763 1683</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many observations?</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(SOEP)</span></code></pre></div>
-<pre><code>## [1] 10659</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many respondents?</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(SOEP<span class="sc">$</span>id))</span></code></pre></div>
-<pre><code>## [1] 3289</code></pre>
+<div id="b-combine-data-sets" class="section level3">
+<h3>b) Combine data sets</h3>
+<p>Combine these three data sets. Hint: Do you want to combine
+<em>rows</em> or <em>columns</em>?</p>
 </div>
-<div id="wave" class="section level2">
-<h2>3. 2001 wave</h2>
-<p>The perhaps easiest way to ignore the panel structure is to turn the
-data into a cross-section. Hence, only keep observations from 2001.</p>
-<div id="a-outcome" class="section level3">
-<h3>a) Outcome</h3>
-<p>Our depended variable is life satisfaction (<code>satisf_org</code>).
-What’s the scale of this variable? On average, how satisfied were people
-with their life in 2001?</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select only 2001</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SOEP2001 <span class="ot">&lt;-</span> SOEP[SOEP<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2001</span>, ]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># scale of outcome</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(SOEP2001<span class="sc">$</span>satisf_org, <span class="st">&quot;labels&quot;</span>)</span></code></pre></div>
-<pre><code>##                               not valid                        does not concern 
-##                                      -3                                      -2 
-##                               no answer 0 Satisfied: On Scale 0-Low to 10-Highh 
-##                                      -1                                       0 
-##  1 Satisfied: On Scale 0-Low to 10-High  2 Satisfied: On Scale 0-Low to 10-High 
-##                                       1                                       2 
-##  3 Satisfied: On Scale 0-Low to 10-High  4 Satisfied: On Scale 0-Low to 10-High 
-##                                       3                                       4 
-##  5 Satisfied: On Scale 0-Low to 10-High  6 Satisfied: On Scale 0-Low to 10-High 
-##                                       5                                       6 
-##  7 Satisfied: On Scale 0-Low to 10-High  8 Satisfied: On Scale 0-Low to 10-High 
-##                                       7                                       8 
-##  9 Satisfied: On Scale 0-Low to 10-High 10 Satisfied: On Scale 0-Low to 10-High 
-##                                       9                                      10</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean of outcome</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(SOEP2001<span class="sc">$</span>satisf_org, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 7.266904</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(SOEP2001<span class="sc">$</span>satisf_org))</span></code></pre></div>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAAAXVBMVEUAAAAAADoAAGYAOjoAOpAAZrY6AAA6ADo6AGY6Ojo6OpA6ZmY6kNtmAABmADpmtv+QOgCQZgCQ2/+2ZgC2/7a2//++vr7bkDrb2//b////tmb/25D//7b//9v///9zfewtAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOYUlEQVR4nO3d65YauRWGYdqx2zmYuNPMhJimuf/LHCjAayKPVNo6oG+33ufXrBWxuxBvqqFsF5sTIGwz+gCAFAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAKFNAL9yDaZRh9ngvKxodbmv1mUI1A+NtQiUEibLtD3l+t7lk+/dzocNDVboPvNt+t/HO7/AWmTBfr+8jPL/ecfHQ4GjU0W6HH7/f6fB37JezBZoJxBvZks0PN70NsplPegPswW6PmX/PVTPOdPH6YLFL4QKKRNFygX6n2ZLVAu1DszWaBcZvJmskDjF+pd/M3CCU0WaMYZVPmpTmiyQDMu1Cs/1QnNFuj6hXrlpzqh6QJ99DjUIdDO41BnskCP29WLS8pPdULTBfqv55UL9MpPdULTBfrt/EH+S6tx6G7CQC+XmBKNKj/VCU0Z6GlpNPLXRZSf6oRmDbTNOHRHoDXj0N1kgT5+HOoQaOdxqEOgncehDoF2Hoc6BNp5HOoQaOdxqEOgncehDoF2Hoc6BNp5HOoQaOdxqEOgncehDoF2Hoc6BNp5HOoQaOdxqEOgncehDoF2Hoc60wW6en9Q5ac6odkCXb8/qPJTndBkgXJ3O28mCzTji7yUn+qEJguUM6g3kwXK/UG9mS1Q7g/qzHSBPnoc6hBo53GoM12gXKj3ZbZAuVDvzGSBcpnJm8kC5Yu8vJksUM6g3kwWKBfqvZktUC7UOzNdoI8ehzoE2nkc6kwX6O784f3tebN5em0yDp3NFujS59fX/7vgVDEOvU0W6PIlCrvlS5K4zOTCdIF+v18L5W/UuzBZoMvZc88Z1I/ZAj1uP/2+nEIPsU9Jyk91QrMFunwJ4kX0yzqVn+qE5gv0weNQh0A7j0MdAu08DnUItPM41CHQzuNQh0A7j0MdAu08DnUItPM41CHQzuNQh0A7j0MdAu08DnUItPM41CHQzuNQh0A7j0MdAu08DnWmC5TbL/oyW6DcftGZyQLl5mHeTBYo35PkzWSBcgb1ZrJAuf2iN7MFyu0XnZku0EePQx0C7TwOdaYLlAv1vswWKBfqnZksUC4zeTNZoHxPkjeTBcoZ1JvJAuVCvTezBcqFememC/TR41CHQDuPQ53JAl2+5WO5yTIX6n2YMdDl8zvfk+TDhIHe0uQykwsTBvr2vATK36h3YcJAOYMOtcl0Xz5boPevoLl+XKocBztjcZMFeloafXqN/0ESgXZGoFrjECBQrXEIEKjWOAQIVGscAgSqNQ4BAtUahwCBao1DgEC1xiFAoFrjECBQrXEIEKjWOAQIVGscAgSqNQ4BAtUahwCBao1DgEC1xiFAoGncH3QwAk3i/qCjEWgKd7cbjkBT+CKv4Qg0hTPocASaxP1BRyPQNO4POhiBao1DgEC1xiFAoGlcqB+MQJO4UD8agaZwmWk4Ak3hi7yGI9AUzqDDEWgSF+pHI9A0LtQPRqBa4xAgUK1xCBBojts3fbQah3wEmnJ/B5r4syTlp/oREGjS7cM7Z9BhCDTtuL18fifQYQh0ze7plUDHIdBV+803Ah2GQNe9Pf+NQEch0AzvLxsCHYRAtcYhQKBa4xAgUK1xCBCo1jgECFRrHAIEqjUOAQLVGocAgWqNQ4BAtcYhQKBa4xAgUK1xCBCo1jgECFRrHAIEqjUOAQLVGocAgaZxf9DBCDSJ+4OORqAp3N1uOAJN4Yu8hiPQFM6gwxFoEvcHHY1A07g/6GAEqjUOAQLVGocAgaZxoX4wAk3iQv1oBJrCZabhCDSFL/Iarm+gm0wPfcaGtZxBh+scqG35Y56xZTEX6kcj0DQu1A9GoFrjECBQrXEIEGiGw2bz9NpuHAwING232Xx7++ePP19wqhkHKwJN2p0/HO2WsyeXmcYg0JTlvPn29RIof6N+DAJNOW4vVz/f/3fiDDoKgSbt7+fNa6q142BGoGn768f3Q/SLkgi0LwLVGocAgWqNQ4BAtcYhQKBa4xAgUK1xCBCo1jgECFRrHAIEqjUOAQLVGudP5393RqBa4/zp/BoTqNY4fwi0MQJti0AbI9C2CLQxAm2LQBsj0LYItDHbD+P2i2sItDHb36jn9otrCLQxyw/j5mHrCLQx87/qvOJfdUYQaGOcQdsi0MaM70G5/eIKAm3M9sO4/eIaAm2M66BtEWhjBNoWgTbGhfq2CLQxLtS3RaCNcZmpLQJtrM2Fer4n6Y5AG+MM2pY1CeO/YSLQJC7Ur+qTxIOKcx8oF+pXEWjrDZUe5w+Btt5Q6XH+EGjrDTWt3p9/vS9vQ/f8dbu/RqCtN9Sy+HIH8OP2y4lAowi09YYa1l4vM72/nD8iEWgEgbbeUMPa+4X63ecfBBpBoK031LD254X63RcCjSDQ1htqWXzP8riN/X0mAu2SBIFmuv9R0vsLgf41Am29odLj/CHQ1hsqPc4fAm29odLj/CHQ1hsqPc6fmQK1/l3Bsg2teXD3cf5MFWje8rozLoG2RaDx9WUbWvPg7uP8IdD4+rINrXlw93H+EGh8fdmG1jy4+zh/CDS+vmxDax7cfZw/BBpfX7ahNQ/uPs4fAo2vL9vQmgd3H+cPgcbXl21ozYO7j/OHQOPryza05sHdx/lDoPH1ZRta8+Du4/wh0Pj6sg2teXD3cf4QaHx92YaaVnN/0DUEGl9ftqGWxdwfdBWBxteXbahhLXe3W0eg8fVlG2pYyxd5rSPQ+PqyDTWs5Qy6jkDj68s21LKY+4OuItD4+rINNa3m/qBrCDS+vmxDax7cfZw/BBpfX7ahNQ/uPs4fAo2vL9tQ02ou1K8h0Pj6sg21LOZC/SoCja8v21DDWi4zrSPQ+PqyDTWs5Yu81hFofH3ZhhrWcgZdR6Dx9WUbalnMhfpVBBpfX7ahptVcqF9DoPH1ZRta8+Du4/wh0Pj6sg2teXD3cf4QaHx92YbWPLj7OH8INL6+bENrHtx9nD8EGl9ftqGGtfePSIk/7CTQvq+xRHGygca/3KNs3EdEoPH1ZRtqWv3+8qXluA+IQOPryzbUtvyw+Z783wm072ssUZxyoA8e5w+BxteXbWjNg7uP84dA4+vLNrTmwd3H+UOg8fVlG1rz4O7j/CHQ+PqyDa15cPdx/hBofH3ZhtY8uPs4fwg0vr5sQ2se3H2cPwQaX1+2oTUP7j7OHwKNry/b0JoHdx/nD4HG15dtaM2Du48TYPxGXwKNry/b/5oHdx8nQOs1ljgaAlWi9RpLHA2BKtF6jSWOhkCVaL3GEkdDoD3lfujRfI0ljoZAe3KZhNbREGhPLpPQOhoC7cllElpHQ6A9uUxC62gI1PYjbZ96XCahdTQEavuRtm1ymYTW0RCo7UfatsllElpHQ6C2H2nbJpdJaB0Ngdp+pG2bXCahdTQEavuRtm1ymYTW0Xy4QK1/uNjlzyIJdNTyRwZa9kVeUtvkMgmto9ENtPCLvKS2yWUSWkcjG2jp19BIbZPLJLSORjbQ0i/y6vwe1LbeuFzr4EWOpvDgizQ+gwJtGd+Drn2RF9CW7fS7+kVeQFsDrqwD+QgU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0ggU0kYEethsnl5Nj3j7e+xuZb9abnBm+Gf7e/PR7Az/6vr6D7W/ZK9/ezasPtzu3PF9fenV3rL4ZNyb24tkf3WTBgR6OB//wfQcjtvo7fR+8f5yHr3Pf5H359G2ozlYbgvw9tX0Yh3Oo4/b/J5PJ8vy/WXnDYXuzuvfnjPX314k+6ub9vhArzfQ2RlehEPifo+/uG7oPvcBx+23yyEZjuZ8TjQEesg/8tN9b7IPfpG/+vo083d+2ZvcuxzdXiT7q7vi8YEaC1rus2N7mU8n4/+HTYHuP//HEOje9FIZz7fLQ56z385YA71uYt5W3l8k86u7ZkCgy4tgS84c6M52EjLkfD58y3vQ3T8s74gPn37bmt5A256p8Vf8LdDcB1wDLXh1kx4fqOX/lz8fY3zCppubHSxJXH6FGQI9bi9rd7nz95dfk8Y3HJacbR9gbmdDU6Alr27Shwz0YPjYfPH+kp3c5R2Z5Qx6PZ7cw7+eyi3P1rSPl7Ot4S3B7UPSbIH2/xVvvzlk9oYuB28ONPuT8PW9W/byk+1Y7O8Pd+dPPr/9O3NvPsqv+JK30aYnvLffvDS/IOuVx+v43M8+1+dp+Khk+g1fdnbLvgb9UT4klVyIsASa/Z5pcd1Q2//jDWct4/jrTdYNR2M52RY9V8PNtA8f5DJTyaVc00tmO39eavvTvc1zH5K9drmykz1+bzwa2z4a34MufwSQ/xMOH+RCfckfLhoCvf0Szv8BO/NvbNN7UOP4g/HPaW2nw51t+uXPafM38vYi2V/dJP6yCKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKQRKKT9ARaZms5G/OmFAAAAAElFTkSuQmCC" /><!-- --></p>
+<div id="c-missing-values" class="section level3">
+<h3>c) Missing values</h3>
+<p>The total income of a household is measured by the variable
+<code>income_gross</code>. Importantly, missing values are coded with <a href="https://paneldata.org/soep-core/data/hgen/hghinc">negative
+values</a>. How many values are negative? Replace these negative values
+with <code>NA</code>.</p>
 </div>
-<div id="b-linear-model" class="section level3">
-<h3>b) Linear model</h3>
-<p>Use the <code>lm()</code> function of base R to tegress
-<code>satisf_org</code> on <code>no_kids</code>, controlling for the
-confounding variables <code>education</code>, <code>health_org</code>
-and <code>sex</code>. Treat all variables as continuous and sex as a
-dummy. According to this model, does having children influence one’s
-life satisfaction? How strongly?</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m1_2001 <span class="ot">&lt;-</span> <span class="fu">lm</span>(satisf_org <span class="sc">~</span> no_kids <span class="sc">+</span> education</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>              <span class="sc">+</span> health_org <span class="sc">+</span> sex,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> SOEP2001</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_2001)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = satisf_org ~ no_kids + education + health_org + 
-##     sex, data = SOEP2001)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.3445 -0.7335  0.3018  0.9817  4.4903 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  4.79349    0.19861  24.135  &lt; 2e-16 ***
-## no_kids     -0.13139    0.03667  -3.583 0.000346 ***
-## education    0.02601    0.01395   1.864 0.062393 .  
-## health_org   0.64624    0.03488  18.527  &lt; 2e-16 ***
-## sex          0.02064    0.06841   0.302 0.762931    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1.617 on 2243 degrees of freedom
-## Multiple R-squared:  0.1388, Adjusted R-squared:  0.1372 
-## F-statistic: 90.36 on 4 and 2243 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="c-average-income-per-year" class="section level3">
+<h3>c) Average income per year</h3>
+<p>What is the average income for a German household in each year?</p>
 </div>
 </div>
-<div id="full-data" class="section level2">
-<h2>4. Full data</h2>
-<p>Now, let us examine the full data.</p>
-<div id="a-linear-model" class="section level3">
-<h3>a) Linear model</h3>
-<p>Re-estimate the model from 3.b. with the full data <code>SOEP</code>
-(so-called <em>pooled OLS model</em>). Compare the results to 3.b). Do
-you see any systematic difference between the two? Which model would you
-trust more and why?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m1_pooled <span class="ot">&lt;-</span> <span class="fu">lm</span>(satisf_org <span class="sc">~</span> no_kids</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                <span class="sc">+</span> education <span class="sc">+</span> health_org <span class="sc">+</span> sex,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> SOEP</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                )</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_pooled)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = satisf_org ~ no_kids + education + health_org + 
-##     sex, data = SOEP)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.3700 -0.8502  0.2358  1.0752  4.7328 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  4.307173   0.092347  46.641  &lt; 2e-16 ***
-## no_kids     -0.125667   0.017223  -7.296 3.17e-13 ***
-## education    0.038954   0.006429   6.059 1.42e-09 ***
-## health_org   0.703135   0.016576  42.419  &lt; 2e-16 ***
-## sex          0.099176   0.031606   3.138  0.00171 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1.623 on 10654 degrees of freedom
-## Multiple R-squared:  0.1539, Adjusted R-squared:  0.1535 
-## F-statistic: 484.3 on 4 and 10654 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="income-per-capita" class="section level2">
+<h2>2. Income per capita</h2>
+<p>What we used in 1. was the total household income. However, comparing
+a single household with a five-person family is quite misleading. Hence,
+we want to calculate each household’s income per head. Information on
+the number of household members is provided in: hhmembers2004.dta,
+hhmembers2005.dta, hhmembers2006.dta.</p>
+<div id="a-import-and-combine-data-sets" class="section level3">
+<h3>a) Import and combine data sets</h3>
+<p>Like in 1.a) and b), import and combine the household member data
+sets.</p>
 </div>
-<div id="b-cluster-robust-standard-errors" class="section level3">
-<h3>b) Cluster-robust standard errors</h3>
-<p>One solution to tackle the issue of statistical dependence is cluster
-robust standard errors. One way to get robust standard errors is to use
-the <code>lm_robust()</code> function of the <code>estimatr</code>
-package. <code>lm_robust()</code> otherwise works exactly like
-<code>lm()</code> (check <code>?lm_robust()</code> for help). In our
-cases, interviews cluster in respondents indicated by the variable
-<code>id</code>. Run a model that clusters standard errors by
-<code>id</code> (use the White standard error <code>CR0</code>). Compare
-the results to the model without robust standard errors.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(estimatr)){</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;estimatr&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(estimatr)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>m1_pooled_robust <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(satisf_org <span class="sc">~</span> no_kids</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                <span class="sc">+</span> education <span class="sc">+</span> health_org <span class="sc">+</span> sex,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> SOEP,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">se_type =</span> <span class="st">&quot;CR0&quot;</span>,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">clusters =</span> id)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_pooled_robust)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm_robust(formula = satisf_org ~ no_kids + education + health_org + 
-##     sex, data = SOEP, clusters = id, se_type = &quot;CR0&quot;)
-## 
-## Standard error type:  CR0 
-## 
-## Coefficients:
-##             Estimate Std. Error t value   Pr(&gt;|t|)  CI Lower CI Upper   DF
-## (Intercept)  4.30717   0.141115  30.522 2.284e-180  4.030490  4.58386 3288
-## no_kids     -0.12567   0.025585  -4.912  9.471e-07 -0.175832 -0.07550 3288
-## education    0.03895   0.009276   4.199  2.747e-05  0.020767  0.05714 3288
-## health_org   0.70314   0.025754  27.302 4.194e-148  0.652640  0.75363 3288
-## sex          0.09918   0.048543   2.043  4.113e-02  0.003998  0.19435 3288
-## 
-## Multiple R-squared:  0.1539 ,    Adjusted R-squared:  0.1535 
-## F-statistic: 203.4 on 4 and 3288 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="b-combine-income-and-household-data-sets" class="section level3">
+<h3>b) Combine income and household data sets</h3>
+<p>Now we want to combine income and size information for each
+household. It is absolutely crucial that we combine both information for
+the same household. Thus, <code>rbind()</code> or <code>cbind()</code>
+won’t do and we will have to work with the <code>joint()</code> function
+family of the <code>dplyr</code> package. The unique household ID is
+stored in the variable <code>hid</code>, the wave in <code>welle</code>.
+Together, <code>hid</code> and <code>welle</code> thus uniquely identify
+the measurements on the household level. Which <code>joint()</code>
+would you use to combine the two data sets? Try it.</p>
 </div>
-<div id="c-tables" class="section level3">
-<h3>c) Tables</h3>
-<p>A very nice way to create tables in R are the packages of <a href="https://github.com/strengejacke">Daniel Lüdecke</a>, like
-<code>sjPlot</code>. Install and load <code>sjPlot</code>. Then use its
-<code>tab_model</code> function to create a table for the models we
-estimated in 3.b), 4.a), and 4.b).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install and load sjPlot</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(sjPlot)){</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;sjPlot&quot;</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(sjPlot)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(m1_2001, m1_pooled, m1_pooled_robust,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">dv.labels =</span> <span class="fu">c</span>(<span class="st">&quot;2001&quot;</span>, <span class="st">&quot;All waves&quot;</span>, <span class="st">&quot;robust SEs&quot;</span>),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">terms =</span> <span class="st">&quot;no_kids&quot;</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">collapse.ci =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.style =</span> <span class="st">&quot;stars&quot;</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>          )</span></code></pre></div>
-<pre><code>## &#39;r2()&#39; does not support models of class &#39;lm_robust&#39;.</code></pre>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="1" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-2001
-</th>
-<th colspan="1" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-All waves
-</th>
-<th colspan="1" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-robust SEs
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-number of children in<br>household
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.13 <sup>***</sup><br>(-0.20 – -0.06)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.13 <sup>***</sup><br>(-0.16 – -0.09)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.13 <sup>***</sup><br>(-0.18 – -0.08)
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="1">
-2248
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="1">
-10659
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="1">
-10659
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / R<sup>2</sup> adjusted
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
-0.139 / 0.137
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
-0.154 / 0.154
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
-NA
-</td>
-</tr>
-<tr>
-<td colspan="4" style="font-style:italic; border-top:double black; text-align:right;">
-<ul>
-<li>p&lt;0.05   ** p&lt;0.01   *** p&lt;0.001
-</td>
-</tr></li>
-</ul>
-</table>
+<div id="c-aggregate-trend-in-household-income-per-head" class="section level3">
+<h3>c) Aggregate trend in household income per head</h3>
+<p>We are finally equipped to examine per head income. Generate a new
+variable for a household’s income per head. How did it develop over the
+three survey waves?</p>
+</div>
+</div>
+<div id="gender-differences-in-household-income" class="section level2">
+<h2>3. Gender differences in household income</h2>
+<p>Let us check whether developments differed between women and men.
+Gender is an individual-level information and, thus, not included in the
+household data sets. We will work with the data set pcspoverty.dta
+provided by <a href="https://link.springer.com/book/10.1007/978-3-642-32914-2">Andreß
+et al. (2014)</a>. Our variable of interest is <code>edincome</code>
+which, strictly speaking, is not the household income per head, but the
+equivalized disposable income (see Andreß et al. (2014): 39 for details
+on the calculation). However, both concepts are rather similar.</p>
+<div id="a-importing-data" class="section level3">
+<h3>a) Importing data</h3>
+<p>Import the data. How many respondents are included in this data? How
+many were interviewed all three times, how many just once?</p>
+</div>
+<div id="b-missing-values" class="section level3">
+<h3>b) Missing values</h3>
+<p>Like in 1.c), replace the negative income values (variable
+<code>edincome</code>) with missing.</p>
+</div>
+<div id="c-aggregate-household-income-trend-by-gender" class="section level3">
+<h3>c) Aggregate household income trend by gender</h3>
+<p>Investigate the aggregate level trends in <code>edincome</code> for
+adult men and women separately.</p>
+</div>
+</div>
+<div id="individal-level-trends" class="section level2">
+<h2>4. Individal-level trends</h2>
+<p>Now we want to look not at aggregate level trends, but
+individual-level transitions. Is the pcspoverty <em>wide</em> or
+<em>long</em>?</p>
+<div id="a-declare-panel-structure" class="section level3">
+<h3>a) Declare panel structure</h3>
+<p>We will utilize the <code>panelr</code> package to transform the data
+to the other format. Install and load this package, then declare
+<code>pcspoverty</code> as panel data using the
+<code>panel_data()</code> function.</p>
+</div>
+<div id="b-transforming-the-data" class="section level3">
+<h3>b) Transforming the data</h3>
+<p>Because we have declared the panel strucutre, we can easily transform
+the data. If you think the data is currently wide and should be
+transformed to long, use <code>long_panel()</code>. If you think the
+data is currently long and should be transformed to wide, use
+<code>widen_panel()</code>.</p>
+</div>
+<div id="c-generate-individual-income-difference" class="section level3">
+<h3>c) Generate individual income difference</h3>
+<p>We are interested in the <em>individual-level</em> difference in
+income between 2004 and 2006. Generate a new variable for this
+difference. Do we need the wide or the long version of the data for
+this?</p>
+</div>
+<div id="d-individual-level-trend" class="section level3">
+<h3>d) Individual-level trend</h3>
+<p>How did income develop between both time points on average?</p>
+</div>
+<div id="e-individual-level-trend-by-gender" class="section level3">
+<h3>e) Individual-level trend by gender</h3>
+<p>Are there differences in this development between men and women? Do
+you see any reason why this statistic might be problematic?</p>
 </div>
 </div>
     </section>
