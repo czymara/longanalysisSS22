@@ -13,7 +13,7 @@
 <meta name="author" content="Dr. Christian Czymara" />
 
 
-<title>Tutorial 06: Mundlak &amp; Within-Between models</title>
+<title>Tutorial 07: Linear and non-linear probability models</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -30,99 +30,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
-a.sourceLine {
-  pointer-events: auto;
-}
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -141,8 +48,8 @@ a.sourceLine {
 
 <header>
 <div class="inner">
-<h1 class="title toc-ignore">Tutorial 06: Mundlak &amp; Within-Between
-models</h1>
+<h1 class="title toc-ignore">Tutorial 07: Linear and non-linear
+probability models</h1>
 <h2 class="subtitle">Forschungspraktikum I und II:
 Längsschnittdatenanalyse in R</h2>
 <h3 class="author">Dr. Christian Czymara</h3>
@@ -154,10 +61,10 @@ Längsschnittdatenanalyse in R</h2>
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<p>We are interested in smoking as a coping mechanism. In particular, we
-want to examine the impact of dissatisfaction with life on the number of
-smoked cigarettes per day (<code>smoking</code>). We will use biannual
-data from the GSOEP from 2004 to 2016.</p>
+<p>We want to examine the relationship between satisfaction with
+democracy (<span class="math inline">\(x\)</span>) and political
+participation (<span class="math inline">\(y\)</span>). We will work
+with the GESIS Panel (Campus File) looking at a single wave.</p>
 <div id="preparation" class="section level2">
 <h2>1. Preparation</h2>
 <div id="a-packages" class="section level3">
@@ -166,763 +73,96 @@ data from the GSOEP from 2004 to 2016.</p>
 <ul>
 <li><code>haven</code> (data import)</li>
 <li><code>dplyr</code> (data manipulation)</li>
-<li><code>parameters</code> (demeaning)</li>
 <li><code>magrittr</code> (piping)</li>
-<li><code>plm</code> (FE &amp; RE estimator)</li>
+<li><code>margins</code> (Probabilities and AMEs)</li>
 <li><code>sjPlot</code> (tables &amp; plots)</li>
 </ul>
 <p>Install and load them.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;haven&quot;</span>, <span class="co"># data import</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;dplyr&quot;</span>, <span class="co"># data manipulation</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;parameters&quot;</span>, <span class="co"># demeaning</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;magrittr&quot;</span>, <span class="co"># piping</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;plm&quot;</span>, <span class="co"># FE &amp; RE estimator</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;sjPlot&quot;</span> <span class="co"># tables and plots</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># install if necessary</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">setdiff</span>(packages, <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())))  </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># load</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [[1]]
-## [1] &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
-## [7] &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[2]]
-## [1] &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;    
-## [7] &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[3]]
-##  [1] &quot;parameters&quot; &quot;dplyr&quot;      &quot;haven&quot;      &quot;stats&quot;      &quot;graphics&quot;  
-##  [6] &quot;grDevices&quot;  &quot;utils&quot;      &quot;datasets&quot;   &quot;methods&quot;    &quot;base&quot;      
-## 
-## [[4]]
-##  [1] &quot;magrittr&quot;   &quot;parameters&quot; &quot;dplyr&quot;      &quot;haven&quot;      &quot;stats&quot;     
-##  [6] &quot;graphics&quot;   &quot;grDevices&quot;  &quot;utils&quot;      &quot;datasets&quot;   &quot;methods&quot;   
-## [11] &quot;base&quot;      
-## 
-## [[5]]
-##  [1] &quot;plm&quot;        &quot;magrittr&quot;   &quot;parameters&quot; &quot;dplyr&quot;      &quot;haven&quot;     
-##  [6] &quot;stats&quot;      &quot;graphics&quot;   &quot;grDevices&quot;  &quot;utils&quot;      &quot;datasets&quot;  
-## [11] &quot;methods&quot;    &quot;base&quot;      
-## 
-## [[6]]
-##  [1] &quot;sjPlot&quot;     &quot;plm&quot;        &quot;magrittr&quot;   &quot;parameters&quot; &quot;dplyr&quot;     
-##  [6] &quot;haven&quot;      &quot;stats&quot;      &quot;graphics&quot;   &quot;grDevices&quot;  &quot;utils&quot;     
-## [11] &quot;datasets&quot;   &quot;methods&quot;    &quot;base&quot;</code></pre>
 </div>
 <div id="b-import-data" class="section level3">
 <h3>b) Import data</h3>
-<p>Import smoke.dta and assign it to object SOEP.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SOEP_smoke <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">&quot;smoke.dta&quot;</span>)</span></code></pre></div>
+<p>Import ZA5666_v1-0-0_prep.dta and assign it to object
+GESIS_panel.</p>
+</div>
+<div id="c-prepare-data" class="section level3">
+<h3>c) Prepare data</h3>
+<p>We are interested in the probability of having signed a petition in
+the past 12 months. Based on the variable <code>bbzc004a</code>, create
+a new variable with value <span class="math inline">\(1\)</span> if
+someone has signed a petition at least once in the last year, and <span class="math inline">\(0\)</span> if she has not signed a petition in the
+last year. How large is the share of those who have signed a petition in
+the last year? What is the probability to have signed a petition in the
+last year?</p>
 </div>
 </div>
-<div id="model" class="section level2">
-<h2>2. Model</h2>
-<p>Our predictor of interest is <code>lifesat</code>. We also assume
-class differences in life satisfaction and health behavior and, hence,
-control the continuous variable <code>incsat</code> and the categorical
-variable <code>emplstat</code>. Finally, we control gender differences
-(<code>female</code>).</p>
-<div id="a-within-effects" class="section level3">
-<h3>a) Within effects</h3>
-<p>Use <code>plm()</code> to run a FE model that regresses
-<code>smoking</code> on the variables mentioned above and interpret the
-results.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>WE <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  smoking <span class="sc">~</span> lifesat <span class="sc">+</span> incsat <span class="sc">+</span> emplstat1 <span class="sc">+</span> emplstat2 <span class="sc">+</span> female,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> SOEP_smoke,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">index =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">&quot;within&quot;</span> <span class="co"># note: no WE for time-constant variable female</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(WE)</span></code></pre></div>
-<pre><code>## Oneway (individual) effect Within Model
-## 
-## Call:
-## plm(formula = smoking ~ lifesat + incsat + emplstat1 + emplstat2 + 
-##     female, data = SOEP_smoke, model = &quot;within&quot;, index = &quot;pid&quot;)
-## 
-## Unbalanced Panel: n = 3099, T = 2-7, N = 10008
-## 
-## Residuals:
-##     Min.  1st Qu.   Median  3rd Qu.     Max. 
-## -74.0326  -1.6351   0.0000   1.6042 146.0631 
-## 
-## Coefficients:
-##             Estimate Std. Error t-value Pr(&gt;|t|)  
-## lifesat   -0.0924329  0.0482617 -1.9152  0.05550 .
-## incsat    -0.0012002  0.0367242 -0.0327  0.97393  
-## emplstat1  0.8095496  0.4822505  1.6787  0.09326 .
-## emplstat2  0.7126948  0.4813795  1.4805  0.13878  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Total Sum of Squares:    153780
-## Residual Sum of Squares: 153630
-## R-Squared:      0.00096864
-## Adj. R-Squared: -0.44784
-## F-statistic: 1.67374 on 4 and 6905 DF, p-value: 0.15305</code></pre>
+<div id="logistic-model" class="section level2">
+<h2>2. Logistic model</h2>
+<div id="a-null-model" class="section level3">
+<h3>a) Null model</h3>
+<p>Use the <code>glm()</code> function to run a logistic regression
+model (<code>family = &quot;binomial&quot;</code>) without any explanatory
+variables (null model). Based on this model, what is the probability to
+have signed a petition in the last year?</p>
 </div>
-<div id="b-between-effects" class="section level3">
-<h3>b) Between effects</h3>
-<p>Between effects (BE) are the “opposite” of WE in the sense that they
-are only based on variation between respondents, removing all variance
-within units. use <code>plm()</code> to run a BE model. Compare the
-results to the FE model.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>BE <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    smoking <span class="sc">~</span> lifesat <span class="sc">+</span> incsat <span class="sc">+</span> emplstat1 <span class="sc">+</span> emplstat2 <span class="sc">+</span> female,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> SOEP_smoke,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">index =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">&quot;between&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(BE)</span></code></pre></div>
-<pre><code>## Oneway (individual) effect Between Model
-## 
-## Call:
-## plm(formula = smoking ~ lifesat + incsat + emplstat1 + emplstat2 + 
-##     female, data = SOEP_smoke, model = &quot;between&quot;, index = &quot;pid&quot;)
-## 
-## Unbalanced Panel: n = 3099, T = 2-7, N = 10008
-## Observations used in estimation: 3099
-## 
-## Residuals:
-##      Min.   1st Qu.    Median   3rd Qu.      Max. 
-## -17.77725  -5.33541  -0.18227   4.35215  80.00560 
-## 
-## Coefficients:
-##              Estimate Std. Error  t-value  Pr(&gt;|t|)    
-## (Intercept) 22.187413   1.243891  17.8371 &lt; 2.2e-16 ***
-## lifesat     -0.572134   0.116596  -4.9070 9.728e-07 ***
-## incsat      -0.222499   0.088701  -2.5084   0.01218 *  
-## emplstat1    0.107410   1.136316   0.0945   0.92470    
-## emplstat2    0.041020   1.182002   0.0347   0.97232    
-## female      -3.774437   0.324548 -11.6298 &lt; 2.2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Total Sum of Squares:    199520
-## Residual Sum of Squares: 185150
-## R-Squared:      0.072022
-## Adj. R-Squared: 0.070522
-## F-statistic: 48.0108 on 5 and 3093 DF, p-value: &lt; 2.22e-16</code></pre>
+<div id="b-logit" class="section level3">
+<h3>b) Logit</h3>
+<p>Add the key explanatory variable <code>demozuf</code> (satisfaction
+with democracy on 11-point scale) to the model. Interpret the effect of
+its coefficient.</p>
 </div>
-<div id="c-random-effects" class="section level3">
-<h3>c) Random effects</h3>
-<p>Run a RE model and compare to WE and BE.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>RE <span class="ot">&lt;-</span>  <span class="fu">plm</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    smoking <span class="sc">~</span> lifesat <span class="sc">+</span> incsat <span class="sc">+</span> emplstat1 <span class="sc">+</span> emplstat2 <span class="sc">+</span> female,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> SOEP_smoke,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">index =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">&quot;random&quot;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RE)</span></code></pre></div>
-<pre><code>## Oneway (individual) effect Random Effect Model 
-##    (Swamy-Arora&#39;s transformation)
-## 
-## Call:
-## plm(formula = smoking ~ lifesat + incsat + emplstat1 + emplstat2 + 
-##     female, data = SOEP_smoke, model = &quot;random&quot;, index = &quot;pid&quot;)
-## 
-## Unbalanced Panel: n = 3099, T = 2-7, N = 10008
-## 
-## Effects:
-##                  var std.dev share
-## idiosyncratic 22.249   4.717 0.313
-## individual    48.926   6.995 0.687
-## theta:
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.5696  0.5696  0.6805  0.6588  0.7113  0.7530 
-## 
-## Residuals:
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -44.691  -2.876  -0.325   0.015   2.306 175.308 
-## 
-## Coefficients:
-##              Estimate Std. Error  z-value  Pr(&gt;|z|)    
-## (Intercept) 18.030433   0.543817  33.1553 &lt; 2.2e-16 ***
-## lifesat     -0.194893   0.044499  -4.3797 1.188e-05 ***
-## incsat      -0.059373   0.033864  -1.7533   0.07956 .  
-## emplstat1    0.644570   0.443812   1.4523   0.14640    
-## emplstat2    0.587050   0.448314   1.3095   0.19038    
-## female      -3.707883   0.288185 -12.8663 &lt; 2.2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Total Sum of Squares:    240140
-## Residual Sum of Squares: 226360
-## R-Squared:      0.057554
-## Adj. R-Squared: 0.057083
-## Chisq: 212.746 on 5 DF, p-value: &lt; 2.22e-16</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the three models</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(WE, BE, RE,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">dv.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Within Effects&quot;</span>, <span class="st">&quot;Between Effects&quot;</span>, <span class="st">&quot;Random Effects&quot;</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">terms =</span> <span class="st">&quot;lifesat&quot;</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">show.se =</span> T,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">collapse.ci =</span> T,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.style =</span> <span class="st">&quot;stars&quot;</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Within Effects
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Between Effects
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Random Effects
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
-std. Error
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.187 – 0.002)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.048
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.572 <sup>***</sup><br>(-0.801 – -0.344)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.117
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.195 <sup>***</sup><br>(-0.282 – -0.108)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.044
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-3099
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / R<sup>2</sup> adjusted
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.001 / -0.448
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.072 / 0.071
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.058 / 0.057
-</td>
-</tr>
-<tr>
-<td colspan="7" style="font-style:italic; border-top:double black; text-align:right;">
+<div id="c-odds-ratio" class="section level3">
+<h3>c) Odds ratio</h3>
+<p>Re-estimate the same model as odds ratios. Again, interpret the
+result.</p>
+</div>
+<div id="d-average-marginal-effect" class="section level3">
+<h3>d) Average marginal effect</h3>
+<p>Calculate it as the average marginal effect (AME). Use the <a href="https://cran.r-project.org/web/packages/margins/vignettes/Introduction.html#Average_Marginal_Effects_and_Average_Partial_Effects"><code>margins</code>
+package</a> for the AME (if you have worked with Stata before, the logic
+of the margins package should be pretty familiar to you).</p>
+</div>
+<div id="e-control-variables" class="section level3">
+<h3>e) Control variables</h3>
+<p>Add two confounding variables age (<code>alter</code>) and gender
+(<code>geschlecht</code>). Compare the effect of <code>demozuf</code> to
+2.b. and interpret differences between both models.</p>
+</div>
+</div>
+<div id="predicted-probabilities" class="section level2">
+<h2>3. Predicted probabilities</h2>
+<div id="a-prediction-for-women" class="section level3">
+<h3>a) Prediction for women</h3>
+<p>Based on the coefficients of model 2.e), predict the probability to
+vote for different (hypothetical) persons. The formula for probabilities
+is <span class="math inline">\(pr(petition = 1 | x) = \frac{e^{\beta_{0}
++ \beta_{1}demozuf + \beta_{2}alter +
+\beta_{3}geschlecht}}{1+e^{\beta_{0} + \beta_{1}demozuf + \beta_{2}alter
++ \beta_{3}geschlecht}}\)</span>. Alternatively, use the
+<code>predict()</code> function. Predict the probability for a
+<em>woman</em> who is…</p>
 <ul>
-<li>p&lt;0.05   ** p&lt;0.01   *** p&lt;0.001
-</td>
-</tr></li>
+<li>60 years old and very satisfied with democracy (demozuf = 10)</li>
+<li>20 years old and very dissatisfied with democracy (demozuf = 0)</li>
+<li>Calculate the difference between both</li>
 </ul>
-</table>
 </div>
-</div>
-<div id="hybrid-re-models" class="section level2">
-<h2>3. Hybrid RE models</h2>
-<p>Let us model WE and BE simultaneously. To this end, we need we need
-unit-specific means (<span class="math inline">\(\overline{x}_i\)</span>) and demeaned versions
-(<span class="math inline">\(x_{it}-\overline{x}_i=\ddot{x}_{it}\)</span>) of
-each of the (time-varying) variables <code>lifesat</code>,
-<code>incsat</code>, <code>emplstat1</code>, <code>emplstat2</code>,
-<code>emplstat3</code>.</p>
-<div id="a-demeaning" class="section level3">
-<h3>a) Demeaning</h3>
-<p>Use the <code>demean()</code> function of the <code>parameters</code>
-package to demean these variables.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>SOEP_demeaned <span class="ot">&lt;-</span> <span class="fu">demean</span>(SOEP_smoke,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;lifesat&quot;</span>, <span class="st">&quot;incsat&quot;</span>,<span class="st">&quot;emplstat1&quot;</span>,<span class="st">&quot;emplstat2&quot;</span>,<span class="st">&quot;emplstat3&quot;</span>),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">suffix_groupmean =</span> <span class="st">&quot;_mean&quot;</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">suffix_demean =</span> <span class="st">&quot;_demean&quot;</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to main data set</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>SOEP_smoke <span class="ot">&lt;-</span> <span class="fu">cbind</span>(SOEP_smoke, SOEP_demeaned)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># means and demeaned variables practically uncorrelated</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="sc">~</span> lifesat_mean <span class="sc">+</span> lifesat_demean, SOEP_smoke)</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  lifesat_mean and lifesat_demean
-## t = -1.1667e-16, df = 10006, p-value = 1
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  -0.01959223  0.01959223
-## sample estimates:
-##           cor 
-## -1.166396e-18</code></pre>
-</div>
-<div id="b-mundlak-model" class="section level3">
-<h3>b) Mundlak model</h3>
-<p>Run a RE model that includes the <em>original version</em> of the
-variables (<span class="math inline">\(x\)</span>) as well as their
-unit-specific means (<span class="math inline">\(\overline{x}_i\)</span>). This will yield a
-so-called Mundlak model (note that you will need to add the option
-<code>random.method = &quot;walhus&quot;</code> to the RE for the model to be
-estimable). What do the coefficients of <span class="math inline">\(x_{it}\)</span> and <span class="math inline">\(\overline{x}_i\)</span> tell us? Compare the
-results to the WE and the BE.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mundlak <span class="ot">&lt;-</span> <span class="fu">plm</span>(smoking <span class="sc">~</span> lifesat <span class="sc">+</span> incsat <span class="sc">+</span> emplstat1 <span class="sc">+</span> emplstat2 <span class="sc">+</span> female <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                 lifesat_mean <span class="sc">+</span> incsat_mean <span class="sc">+</span> emplstat1_mean <span class="sc">+</span> emplstat2_mean,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> SOEP_smoke,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">index =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">model =</span> <span class="st">&quot;random&quot;</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">random.method =</span> <span class="st">&quot;walhus&quot;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>           )</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(mundlak, WE, BE,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">dv.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mundlak&quot;</span>, <span class="st">&quot;Within Effects&quot;</span>, <span class="st">&quot;Between Effects&quot;</span>),</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">&quot;lifesat&quot;</span>, <span class="st">&quot;lifesat_mean&quot;</span>),</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">show.se =</span> T,</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">collapse.ci =</span> T,</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.style =</span> <span class="st">&quot;stars&quot;</span>,</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Mundlak
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Within Effects
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Between Effects
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
-std. Error
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.188 – 0.003)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.049
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.187 – 0.002)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.048
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.572 <sup>***</sup><br>(-0.801 – -0.344)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.117
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat mean
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.489 <sup>***</sup><br>(-0.734 – -0.244)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.125
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-3099
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / R<sup>2</sup> adjusted
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.062 / 0.061
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.001 / -0.448
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.072 / 0.071
-</td>
-</tr>
-<tr>
-<td colspan="7" style="font-style:italic; border-top:double black; text-align:right;">
+<div id="b-prediction-for-men" class="section level3">
+<h3>b) Prediction for men</h3>
+<p>Do the same but for a <em>man</em> who is…</p>
 <ul>
-<li>p&lt;0.05   ** p&lt;0.01   *** p&lt;0.001
-</td>
-</tr></li>
+<li>60 years old and very satisfied with democracy (demozuf = 10)</li>
+<li>20 years old and very dissatisfied with democracy (demozuf = 0)</li>
+<li>Calculate the difference between both</li>
+<li>Then compare this difference for men with the differences for
+women</li>
 </ul>
-</table>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WE = WE</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(WE<span class="sc">$</span>coefficients[<span class="dv">1</span>], <span class="dv">5</span>) <span class="sc">==</span> <span class="fu">round</span>(mundlak<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## lifesat 
-##    TRUE</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BE = WE + (BE-WE)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(BE<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">1</span>) <span class="sc">==</span> <span class="fu">round</span>(mundlak<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">1</span> <span class="co"># WE</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                      ) <span class="sc">+</span> <span class="fu">round</span>(mundlak<span class="sc">$</span>coefficients[<span class="dv">7</span>], <span class="dv">1</span>) <span class="co"># diff WE and BE</span></span></code></pre></div>
-<pre><code>## lifesat 
-##    TRUE</code></pre>
 </div>
-<div id="c-rewb-model" class="section level3">
-<h3>c) REWB Model</h3>
-<p>Run a RE model that includes the unit-specific means (<span class="math inline">\(\overline{x}_i\)</span>) and the demeaned
-variables (<span class="math inline">\(\ddot{x}_{it}\)</span>). This
-results in a so-called REWB model (again, add
-<code>random.method = &quot;walhus&quot;</code>). What do the coefficients of
-<span class="math inline">\(\overline{x}_i\)</span> and <span class="math inline">\(\ddot{x}_{it}\)</span> tell us? Compare the
-results to the Mundlak model.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>REWB <span class="ot">&lt;-</span> <span class="fu">plm</span>(smoking <span class="sc">~</span> lifesat_mean <span class="sc">+</span> incsat_mean <span class="sc">+</span> emplstat1_mean <span class="sc">+</span> emplstat2_mean <span class="sc">+</span> female <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              lifesat_demean <span class="sc">+</span> incsat_demean <span class="sc">+</span> emplstat1_demean <span class="sc">+</span> emplstat2_demean,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> SOEP_smoke,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">index =</span> <span class="st">&quot;pid&quot;</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">model =</span> <span class="st">&quot;random&quot;</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">random.method =</span> <span class="st">&quot;walhus&quot;</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>           )</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(REWB, mundlak, WE, BE,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">dv.labels =</span> <span class="fu">c</span>(<span class="st">&quot;REWB&quot;</span>, <span class="st">&quot;Mundlak&quot;</span>, <span class="st">&quot;Within Effects&quot;</span>, <span class="st">&quot;Between Effects&quot;</span>),</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">&quot;lifesat&quot;</span>, <span class="st">&quot;lifesat_mean&quot;</span>, <span class="st">&quot;lifesat_demean&quot;</span>),</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">show.se =</span> T,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">collapse.ci =</span> T,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.style =</span> <span class="st">&quot;stars&quot;</span>,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-REWB
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Mundlak
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Within Effects
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Between Effects
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
-std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9">
-std. Error
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat mean
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.581 <sup>***</sup><br>(-0.807 – -0.355)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.115
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.489 <sup>***</sup><br>(-0.734 – -0.244)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.125
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat demean
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.188 – 0.003)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.049
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.188 – 0.003)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.049
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.092 <sup></sup><br>(-0.187 – 0.002)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.048
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
--0.572 <sup>***</sup><br>(-0.801 – -0.344)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
-0.117
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-10008
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-3099
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / R<sup>2</sup> adjusted
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.062 / 0.061
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.062 / 0.061
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.001 / -0.448
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.072 / 0.071
-</td>
-</tr>
-<tr>
-<td colspan="9" style="font-style:italic; border-top:double black; text-align:right;">
-<ul>
-<li>p&lt;0.05   ** p&lt;0.01   *** p&lt;0.001
-</td>
-</tr></li>
-</ul>
-</table>
 </div>
-<div id="d-we-vs.-be-of-life-satisfaction" class="section level3">
-<h3>d) WE vs. BE of life satisfaction</h3>
-<p>Based on these models, does the WE of life satisfaction on smoking
-significantly differ from its BE?</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WE = WE = WE</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">sapply</span>(<span class="fu">list</span>(<span class="fu">round</span>(WE<span class="sc">$</span>coefficients[<span class="dv">1</span>], <span class="dv">5</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(mundlak<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">5</span>)),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>           <span class="cf">function</span>(x) x <span class="sc">==</span> <span class="fu">round</span>(REWB<span class="sc">$</span>coefficients[<span class="dv">7</span>], <span class="dv">5</span>)))</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BE = BE</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(BE<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">1</span>) <span class="sc">==</span> <span class="fu">round</span>(REWB<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## lifesat 
-##    TRUE</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WE = BE?</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># with Mundlak model</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(mundlak,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">terms =</span> <span class="st">&quot;lifesat_mean&quot;</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">collapse.ci =</span> T,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">p.style =</span> <span class="st">&quot;stars&quot;</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>) <span class="co"># difference between WE and BE statistically significant</span></span></code></pre></div>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="1" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-smoking
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-lifesat mean
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.489 <sup>***</sup><br>(-0.734 – -0.244)
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="1">
-10008
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / R<sup>2</sup> adjusted
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
-0.062 / 0.061
-</td>
-</tr>
-<tr>
-<td colspan="2" style="font-style:italic; border-top:double black; text-align:right;">
-<ul>
-<li>p&lt;0.05   ** p&lt;0.01   *** p&lt;0.001
-</td>
-</tr></li>
-</ul>
-</table>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with REWB (car package needed)</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">linearHypothesis</span>(REWB, <span class="st">&quot;lifesat_demean = lifesat_mean&quot;</span>)</span></code></pre></div>
-<pre><code>## Linear hypothesis test
-## 
-## Hypothesis:
-## - lifesat_mean  + lifesat_demean = 0
-## 
-## Model 1: restricted model
-## Model 2: smoking ~ lifesat_mean + incsat_mean + emplstat1_mean + emplstat2_mean + 
-##     female + lifesat_demean + incsat_demean + emplstat1_demean + 
-##     emplstat2_demean
-## 
-##   Res.Df Df  Chisq Pr(&gt;Chisq)    
-## 1   9999                         
-## 2   9998  1 15.295  9.194e-05 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-</div>
+<div id="linear-probability-model" class="section level2">
+<h2>4. Linear probability model</h2>
+<p>Run a linear probability model (LPM) by re-estimating the model from
+2.e) using the OLS estimator (<code>lm()</code>). Compare to the results
+to the logistic regression.</p>
 </div>
     </section>
   </div>
