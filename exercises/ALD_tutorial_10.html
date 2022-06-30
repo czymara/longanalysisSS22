@@ -13,7 +13,7 @@
 <meta name="author" content="Dr. Christian Czymara" />
 
 
-<title>Tutorial 09: Logistic Fixed Eﬀects models</title>
+<title>Tutorial 10: Natural experiments</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -30,99 +30,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
-a.sourceLine {
-  pointer-events: auto;
-}
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -141,8 +48,7 @@ a.sourceLine {
 
 <header>
 <div class="inner">
-<h1 class="title toc-ignore">Tutorial 09: Logistic Fixed Eﬀects
-models</h1>
+<h1 class="title toc-ignore">Tutorial 10: Natural experiments</h1>
 <h2 class="subtitle">Forschungspraktikum I und II:
 Längsschnittdatenanalyse in R</h2>
 <h3 class="author">Dr. Christian Czymara</h3>
@@ -154,8 +60,13 @@ Längsschnittdatenanalyse in R</h2>
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<p>Today we will have a look at changes in economic deprivation using
-two waves of the GSOEP, 2001 and 2003.</p>
+<p>Early January 2015, the Jihadist terror attacks on staff of Charlie
+Hebdo and a Jewish supermarket shocked Europe. These attacks coincided
+with the fieldwork of the European Social Survey (ESS). We want to
+analyze whether the attacks had an effect on attitudes toward Muslim
+immigrants. We will draw upon a quasi-experimental design, comparing
+attitudes of those interviewed before with those interviewed after the
+attacks.</p>
 <div id="preparation" class="section level2">
 <h2>1. Preparation</h2>
 <div id="a-packages" class="section level3">
@@ -165,313 +76,92 @@ two waves of the GSOEP, 2001 and 2003.</p>
 <li><code>haven</code> (data import)</li>
 <li><code>dplyr</code> (data manipulation)</li>
 <li><code>magrittr</code> (piping)</li>
-<li><code>survival</code> (Logistic FEs)</li>
+<li><code>lubridate</code> (working with dates)</li>
 <li><code>sjPlot</code> (tables &amp; plots)</li>
 </ul>
 <p>Install and load them.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;haven&quot;</span>, <span class="co"># data import</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;dplyr&quot;</span>, <span class="co"># data manipulation</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;magrittr&quot;</span>, <span class="co"># piping</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;survival&quot;</span>, <span class="co"># Logistic FEs</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;sjPlot&quot;</span>, <span class="co"># tables and plots</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ggplot2&quot;</span> <span class="co"># optional: figures</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># install if necessary</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">setdiff</span>(packages, <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())))  </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># load</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [[1]]
-## [1] &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
-## [7] &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[2]]
-## [1] &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;    
-## [7] &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[3]]
-##  [1] &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
-##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[4]]
-##  [1] &quot;survival&quot;  &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot; 
-##  [7] &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[5]]
-##  [1] &quot;sjPlot&quot;    &quot;survival&quot;  &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;    
-##  [7] &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[6]]
-##  [1] &quot;ggplot2&quot;   &quot;sjPlot&quot;    &quot;survival&quot;  &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;    
-##  [7] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;  
-## [13] &quot;base&quot;</code></pre>
 </div>
 <div id="b-import-data" class="section level3">
 <h3>b) Import data</h3>
-<p>Import soep_depri.dta and assign it to object SOEP.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SOEP <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">&quot;soep_depri.dta&quot;</span>)</span></code></pre></div>
+<p>Import ESS7_edit.dta and assign it to object SOEP.</p>
 </div>
 </div>
-<div id="economic-deprivation" class="section level2">
-<h2>2. Economic deprivation</h2>
-<div id="a-deprivation-in-2001" class="section level3">
-<h3>a) Deprivation in 2001</h3>
-<p>Economic deprivation is measured by the variable
-<code>deprived</code>. What is the probability of economic deprivation
-in 2001? What are the odds to be deprived?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean for 2001</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(SOEP[SOEP<span class="sc">$</span>syear <span class="sc">==</span> <span class="dv">2001</span>, <span class="st">&quot;deprived&quot;</span>]))</span></code></pre></div>
-<pre><code>## deprived
-##         0         1 
-## 0.8820068 0.1179932</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds to be deprived in 2001</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(SOEP[SOEP<span class="sc">$</span>syear <span class="sc">==</span> <span class="dv">2001</span>, <span class="st">&quot;deprived&quot;</span>]))[<span class="dv">2</span>] <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(SOEP[SOEP<span class="sc">$</span>syear <span class="sc">==</span> <span class="dv">2001</span>, <span class="st">&quot;deprived&quot;</span>]))[<span class="dv">2</span>])</span></code></pre></div>
-<pre><code>##         1 
-## 0.1337781</code></pre>
+<div id="generate-treatment-variable" class="section level2">
+<h2>2. Generate treatment variable</h2>
+<p>The crucial variable of our analysis is based on the interview
+date.</p>
+<div id="a-interview-start" class="section level3">
+<h3>a) Interview start</h3>
+<p>There are three variables for the start of the interview: its day
+(<code>inwdds</code>), month (<code>inwmms</code>), and year
+(<code>inwyys</code>). Based on these three variables, use
+<code>lubridate</code>’s <code>mdy()</code> function to generate a
+variable that indicates the interview (start) date. Note that
+<code>lubridate</code> works with the US date format where the month
+comes first, followed by day and year (hence, mdy). When did the first
+interview start? When did the last start?</p>
 </div>
-<div id="b-trends-in-deprivation" class="section level3">
-<h3>b) Trends in deprivation</h3>
-<p>Did deprivation change between the two time points? When were people
-more likely to be economically deprived? Is the difference statistically
-significant?</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>SOEP <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> syear, <span class="at">y =</span> deprived)) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="at">fun.y =</span> <span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(deprived <span class="sc">~</span> syear, <span class="at">data =</span> SOEP)</span></code></pre></div>
-<pre><code>## 
-##  Welch Two Sample t-test
-## 
-## data:  deprived by syear
-## t = -10.412, df = 37658, p-value &lt; 2.2e-16
-## alternative hypothesis: true difference in means between group 2001 and group 2003 is not equal to 0
-## 95 percent confidence interval:
-##  -0.04297798 -0.02936043
-## sample estimates:
-## mean in group 2001 mean in group 2003 
-##          0.1179932          0.1541624</code></pre>
+<div id="b-same-day-interviews" class="section level3">
+<h3>b) Same day interviews</h3>
+<p>Not all interviews were finished on the same day. We will remove
+those respondents. Similar to 2.a), generate a variable that indicates
+the end of an interview (based on variables <code>inwdde</code>,
+<code>inwmme</code>, and <code>inwyye</code>).</p>
+<p>Then generate another variable with value 1 if interview start and
+finish were on the same day and 0 otherwise. How many respondents were
+interviewed over several days? Drop respondents that were not
+interviewed in one day.</p>
+</div>
+<div id="c-attack-variable" class="section level3">
+<h3>c) Attack variable</h3>
+<p>We are prepared to create our treatment variable based on the
+attacks. They took place from 7 January to 9 Jan 2015. Hence, we need to
+transform this date. We will compare individuals interviewed up to four
+weeks (28 days) before the attack with those interviewed up to two weeks
+(14 days) after.</p>
+<div id="before-attack" class="section level4">
+<h4>Before attack</h4>
+<p>Generate a variable that includes the period starting from <em>28
+days before 7 January 2015</em> to <em>the day before 7 January
+2015</em>.</p>
+</div>
+<div id="after-attack" class="section level4">
+<h4>After attack</h4>
+<p>Generate a variable that includes the period starting <em>the day
+after 7 January 2015</em> until <em>two weeks after 9 (!) January
+2015</em>.</p>
+</div>
+<div id="treatment-variable" class="section level4">
+<h4>Treatment variable</h4>
+<p>Generate our final binary treatment that should be 0 for those
+interviewed in the before period and 1 for those interviewed in the
+after period, NA otherwise. How many people were interviewed before the
+attack and how many after?</p>
 </div>
 </div>
-<div id="transition-matrix" class="section level2">
-<h2>3. Transition matrix</h2>
-<p>Let us move from the aggregate to the individual level. How stable is
-deprivation? To know this, we have to know the value in the previous
-time point. So-called lagged variables have this information. Use
-<code>dplyr</code>’s <code>lag()</code> function to get the lagged
-values for each person (<code>group_by(pid)</code> first). How many
-people became deprived or made it out of deprivation?</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate lagged deprived for each respondent</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>SOEP <span class="sc">%&lt;&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pid) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">depr_lag =</span> <span class="fu">lag</span>(deprived))</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Transition matrix</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(SOEP<span class="sc">$</span>deprived, SOEP<span class="sc">$</span>depr_lag,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;Deprived 2003&quot;</span>, <span class="st">&quot;Deprived 2001&quot;</span>))),</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>##              Deprived 2001
-## Deprived 2003     0     1
-##             0 0.804 0.045
-##             1 0.079 0.072</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many people made it out of poverty?</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(SOEP<span class="sc">$</span>deprived, SOEP<span class="sc">$</span>depr_lag,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;Deprived 2003&quot;</span>, <span class="st">&quot;Deprived 2001&quot;</span>)),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                 <span class="dv">2</span>),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>##              Deprived 2001
-## Deprived 2003     0     1
-##             0 0.911 0.385
-##             1 0.089 0.615</code></pre>
 </div>
-<div id="fixed-effects-logistic-regression" class="section level2">
-<h2>4. Fixed Effects logistic regression</h2>
-<p>One of the most obvious predictors of deprivation is income. Use the
-<code>clogit()</code> function of the <code>survival</code> package to
-run a fixed effects logistic regression. Regress <code>deprived</code>
-on <code>incomepov</code>. How large is the effect (in odds ratios)?</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>logit_fe <span class="ot">&lt;-</span> <span class="fu">clogit</span>(deprived <span class="sc">~</span> incomepov <span class="sc">+</span> <span class="fu">strata</span>(pid), <span class="at">data =</span> SOEP)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_fe)</span></code></pre></div>
-<pre><code>## Call:
-## coxph(formula = Surv(rep(1, 39127L), deprived) ~ incomepov + 
-##     strata(pid), data = SOEP, method = &quot;exact&quot;)
-## 
-##   n= 39118, number of events= 5293 
-##    (9 Beobachtungen als fehlend gelöscht)
-## 
-##             coef exp(coef) se(coef)     z Pr(&gt;|z|)    
-## incomepov 0.8568    2.3556   0.1027 8.341   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-##           exp(coef) exp(-coef) lower .95 upper .95
-## incomepov     2.356     0.4245     1.926     2.881
-## 
-## Concordance= 0.544  (se = 0.007 )
-## Likelihood ratio test= 76.08  on 1 df,   p=&lt;2e-16
-## Wald test            = 69.57  on 1 df,   p=&lt;2e-16
-## Score (logrank) test = 73.93  on 1 df,   p=&lt;2e-16</code></pre>
+<div id="analysis" class="section level2">
+<h2>3. Analysis</h2>
+<div id="a-descriptive-overview" class="section level3">
+<h3>a) Descriptive overview</h3>
+<p>What was the average attitude toward Muslim immigration
+(<code>almuslv</code>, higher values imply a more negative attitude)
+before and after the attack?</p>
 </div>
-<div id="manual-fixed-effects-model" class="section level2">
-<h2>5. Manual fixed effects model</h2>
-<p>In the case of logistic regression, we can use neither the dummy
-variable approach nor manual demeaning to reproduce the FE model. We
-rather have to identify the sequences of our outcome. For two time
-points, there are four possible sequences: 11, 10, 01, and 00.</p>
-<div id="a-differentiating" class="section level3">
-<h3>a) Differentiating</h3>
-<p>Similar to the transition matrix in 3., generate a variable
-<code>depr_diff</code> that calculates the differences in the value of
-deprived between <span class="math inline">\(t\)</span> and <span class="math inline">\(t-1\)</span> (i. e.:
-<code>deprived - lag(deprived)</code>) for each respondent. Do the same
-for the variable <code>incomepov</code>. What do the values of the
-<code>depr_diff</code> tell us?</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>SOEP <span class="sc">%&lt;&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pid) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">depr_diff =</span> deprived <span class="sc">-</span> <span class="fu">lag</span>(deprived)) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">incomepov_diff =</span> incomepov <span class="sc">-</span> <span class="fu">lag</span>(incomepov))</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SOEP<span class="sc">$</span>depr_diff)</span></code></pre></div>
-<pre><code>## 
-##    -1     0     1 
-##   756 14784  1334</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -1 is sequence: 10</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 are sequences: 11 and 00</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 is sequence: 01</span></span></code></pre></div>
+<div id="b-linear-regression" class="section level3">
+<h3>b) Linear regression</h3>
+<p>Run an OLS regression with the attack variable as predictor Is there
+an effect of the attack? Would you say it is causal?</p>
 </div>
-<div id="b-within-change" class="section level3">
-<h3>b) Within change</h3>
-<p>We can only use respondents that have a change in the dependent
-variable. Which value(s) of <code>depr_diff</code> identifies the
-sequences without change? How many respondents do not change between
-both waves? Units without a change in <span class="math inline">\(y\)</span> do not contribute to the conditional
-likelihood function. Remove these respondents.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>SOEP_reduc <span class="ot">&lt;-</span> SOEP[SOEP<span class="sc">$</span>depr_diff <span class="sc">!=</span> <span class="dv">0</span>, ]</span></code></pre></div>
+<div id="c-controls" class="section level3">
+<h3>c) Controls</h3>
+<p>Is the attack effect stable to adding <code>agea</code>,
+<code>hinctnta</code>, and <code>edulvlb</code> as control
+variables?</p>
 </div>
-<div id="c-outcome" class="section level3">
-<h3>c) Outcome</h3>
-<p>For a binary variable, recode the value -1 of <code>depr_diff</code>
-to 0. What do the values of the binary Ddeprived indicate now?</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>SOEP_reduc<span class="sc">$</span>depr_diff[SOEP_reduc<span class="sc">$</span>depr_diff <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SOEP_reduc<span class="sc">$</span>depr_diff)</span></code></pre></div>
-<pre><code>## 
-##    0    1 
-##  756 1334</code></pre>
-</div>
-<div id="d-logistic-model" class="section level3">
-<h3>d) Logistic model</h3>
-<p>Use the <code>glm()</code> function to regress <code>depr_diff</code>
-on <code>incomepov_diff</code> (add -1 to the equation to suppress the
-constant). Compare the result to 4 (note that this manual replication of
-logistic FE only works for <span class="math inline">\(t=2\)</span>).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>logit_fe_manual <span class="ot">&lt;-</span>  <span class="fu">glm</span>(depr_diff <span class="sc">~</span> incomepov_diff <span class="sc">-</span> <span class="dv">1</span>,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> SOEP_reduc,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                        )</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(logit_fe, logit_fe_manual)</span></code></pre></div>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
- 
-</th>
-<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Surv(rep(1,39127<br>L),deprived)
-</th>
-<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-depr diff
-</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Predictors
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-CI
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-p
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Odds Ratios
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-CI
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
-p
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-einkommensarmut im<br>erhebungsjah
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-2.36
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.93 – 2.88
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001</strong>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-incomepov diff
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-2.36
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.93 – 2.88
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001</strong>
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
-39118
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
-2090
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> Nagelkerke
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.027
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.031
-</td>
-</tr>
-</table>
+<div id="c-france-only" class="section level3">
+<h3>c) France only</h3>
+<p>Is there an effect for France only?</p>
 </div>
 </div>
     </section>
