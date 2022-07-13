@@ -30,6 +30,99 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -80,10 +173,42 @@ attacks.</p>
 <li><code>sjPlot</code> (tables &amp; plots)</li>
 </ul>
 <p>Install and load them.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;haven&quot;</span>, <span class="co"># data import</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;dplyr&quot;</span>, <span class="co"># data manipulation</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;magrittr&quot;</span>, <span class="co"># piping</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;lubridate&quot;</span>, <span class="co">#working with dates</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;sjPlot&quot;</span> <span class="co"># tables and plots</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># install if necessary</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">setdiff</span>(packages, <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())))  </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># load</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
+## [7] &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[2]]
+## [1] &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;    
+## [7] &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[3]]
+##  [1] &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
+##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[4]]
+##  [1] &quot;lubridate&quot; &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;     &quot;graphics&quot; 
+##  [7] &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[5]]
+##  [1] &quot;sjPlot&quot;    &quot;lubridate&quot; &quot;magrittr&quot;  &quot;dplyr&quot;     &quot;haven&quot;     &quot;stats&quot;    
+##  [7] &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;</code></pre>
 </div>
 <div id="b-import-data" class="section level3">
 <h3>b) Import data</h3>
-<p>Import ESS7_edit.dta and assign it to object SOEP.</p>
+<p>Import ESS7_edit.dta and assign it to object ESS.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ESS <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">&quot;ESS7_edit.dta&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="generate-treatment-variable" class="section level2">
@@ -100,6 +225,13 @@ variable that indicates the interview (start) date. Note that
 <code>lubridate</code> works with the US date format where the month
 comes first, followed by day and year (hence, mdy). When did the first
 interview start? When did the last start?</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>start <span class="ot">&lt;-</span> <span class="fu">mdy</span>(<span class="fu">paste</span>(ESS<span class="sc">$</span>inwmms, ESS<span class="sc">$</span>inwdds, ESS<span class="sc">$</span>inwyys, <span class="at">sep=</span><span class="st">&quot;-&quot;</span>) ) <span class="co"># order must be month,day,year</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(ESS<span class="sc">$</span>start, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] &quot;2014-08-21&quot; &quot;2015-12-02&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(ESS<span class="sc">$</span>start, <span class="at">breaks =</span> <span class="fu">length</span>(<span class="fu">unique</span>(ESS<span class="sc">$</span>start)))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="b-same-day-interviews" class="section level3">
 <h3>b) Same day interviews</h3>
@@ -107,10 +239,22 @@ interview start? When did the last start?</p>
 those respondents. Similar to 2.a), generate a variable that indicates
 the end of an interview (based on variables <code>inwdde</code>,
 <code>inwmme</code>, and <code>inwyye</code>).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>end <span class="ot">&lt;-</span> <span class="fu">mdy</span>(<span class="fu">paste</span>(ESS<span class="sc">$</span>inwmme, ESS<span class="sc">$</span>inwdde, ESS<span class="sc">$</span>inwyye, <span class="at">sep=</span><span class="st">&quot;-&quot;</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(ESS<span class="sc">$</span>end, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] &quot;2014-08-21&quot; &quot;2015-12-02&quot;</code></pre>
 <p>Then generate another variable with value 1 if interview start and
 finish were on the same day and 0 otherwise. How many respondents were
 interviewed over several days? Drop respondents that were not
 interviewed in one day.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>sameday <span class="ot">&lt;-</span> ESS<span class="sc">$</span>start <span class="sc">==</span> ESS<span class="sc">$</span>end</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ESS<span class="sc">$</span>sameday)</span></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##   268 39907</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only keep repsondents interviewed on one day</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ESS <span class="ot">&lt;-</span> ESS[ESS<span class="sc">$</span>sameday <span class="sc">==</span> T, ]</span></code></pre></div>
 </div>
 <div id="c-attack-variable" class="section level3">
 <h3>c) Attack variable</h3>
@@ -124,12 +268,18 @@ weeks (28 days) before the attack with those interviewed up to two weeks
 <p>Generate a variable that includes the period starting from <em>28
 days before 7 January 2015</em> to <em>the day before 7 January
 2015</em>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>attack_before <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  ESS<span class="sc">$</span>start <span class="sc">&gt;</span> <span class="fu">as.Date</span>(<span class="st">&quot;2015-1-7&quot;</span>) <span class="sc">-</span> <span class="dv">28</span> <span class="sc">&amp;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ESS<span class="sc">$</span>start <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">&quot;2015-1-7&quot;</span>)</span></code></pre></div>
 </div>
 <div id="after-attack" class="section level4">
 <h4>After attack</h4>
 <p>Generate a variable that includes the period starting <em>the day
 after 7 January 2015</em> until <em>two weeks after 9 (!) January
 2015</em>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>attack_after <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  ESS<span class="sc">$</span>start <span class="sc">&gt;</span> <span class="fu">as.Date</span>(<span class="st">&quot;2015-1-7&quot;</span>) <span class="sc">&amp;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  ESS<span class="sc">$</span>start <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">&quot;2015-1-7&quot;</span>) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">14</span></span></code></pre></div>
 </div>
 <div id="treatment-variable" class="section level4">
 <h4>Treatment variable</h4>
@@ -137,6 +287,15 @@ after 7 January 2015</em> until <em>two weeks after 9 (!) January
 interviewed in the before period and 1 for those interviewed in the
 after period, NA otherwise. How many people were interviewed before the
 attack and how many after?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ESS<span class="sc">$</span>attack <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(ESS<span class="sc">$</span>attack_before <span class="sc">==</span> T, <span class="dv">0</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">ifelse</span>(ESS<span class="sc">$</span>attack_after <span class="sc">==</span> T, <span class="dv">1</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">NA</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                            ))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ESS<span class="sc">$</span>attack, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##     0     1  &lt;NA&gt; 
+##  2246  1984 35687</code></pre>
 </div>
 </div>
 </div>
@@ -147,21 +306,97 @@ attack and how many after?</p>
 <p>What was the average attitude toward Muslim immigration
 (<code>almuslv</code>, higher values imply a more negative attitude)
 before and after the attack?</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ESS <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(attack) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_at</span>(<span class="st">&quot;almuslv&quot;</span>, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   attack almuslv
+##    &lt;dbl&gt;   &lt;dbl&gt;
+## 1      0    2.69
+## 2      1    2.79
+## 3     NA    2.70</code></pre>
 </div>
 <div id="b-linear-regression" class="section level3">
 <h3>b) Linear regression</h3>
 <p>Run an OLS regression with the attack variable as predictor Is there
 an effect of the attack? Would you say it is causal?</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(almuslv <span class="sc">~</span> attack, ESS))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = almuslv ~ attack, data = ESS)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.7946 -0.6910  0.2054  1.2054  1.3090 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.69097    0.02102 128.009  &lt; 2e-16 ***
+## attack       0.10364    0.03069   3.377 0.000739 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9817 on 4107 degrees of freedom
+##   (35808 Beobachtungen als fehlend gelöscht)
+## Multiple R-squared:  0.002769,   Adjusted R-squared:  0.002526 
+## F-statistic:  11.4 on 1 and 4107 DF,  p-value: 0.0007395</code></pre>
 </div>
 <div id="c-controls" class="section level3">
 <h3>c) Controls</h3>
 <p>Is the attack effect stable to adding <code>agea</code>,
 <code>hinctnta</code>, and <code>edulvlb</code> as control
 variables?</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(almuslv <span class="sc">~</span> attack <span class="sc">+</span> agea <span class="sc">+</span> hinctnta <span class="sc">+</span> edulvlb, ESS))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = almuslv ~ attack + agea + hinctnta + edulvlb, data = ESS)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.1416 -0.7028  0.0719  0.8412  3.2007 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.665e+00  6.769e-02  39.379  &lt; 2e-16 ***
+## attack       1.375e-01  3.315e-02   4.147 3.45e-05 ***
+## agea         6.806e-03  9.719e-04   7.002 3.03e-12 ***
+## hinctnta    -3.806e-02  6.260e-03  -6.080 1.34e-09 ***
+## edulvlb     -4.053e-04  5.697e-05  -7.115 1.37e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9574 on 3342 degrees of freedom
+##   (36570 Beobachtungen als fehlend gelöscht)
+## Multiple R-squared:  0.05785,    Adjusted R-squared:  0.05673 
+## F-statistic:  51.3 on 4 and 3342 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="c-france-only" class="section level3">
 <h3>c) France only</h3>
 <p>Is there an effect for France only?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(almuslv <span class="sc">~</span> attack <span class="sc">+</span> agea <span class="sc">+</span> hinctnta <span class="sc">+</span> edulvlb, ESS, <span class="at">subset =</span> cntry <span class="sc">==</span> <span class="st">&quot;FR&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = almuslv ~ attack + agea + hinctnta + edulvlb, data = ESS, 
+##     subset = cntry == &quot;FR&quot;)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.8323 -0.4947 -0.1606  0.5238  2.2151 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.6199532  0.1560296  16.791  &lt; 2e-16 ***
+## attack      -0.1562529  0.0821708  -1.902   0.0579 .  
+## agea         0.0056978  0.0022090   2.579   0.0102 *  
+## hinctnta    -0.0184511  0.0156148  -1.182   0.2380    
+## edulvlb     -0.0010980  0.0002273  -4.830 1.93e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8011 on 412 degrees of freedom
+##   (1467 Beobachtungen als fehlend gelöscht)
+## Multiple R-squared:  0.1251, Adjusted R-squared:  0.1166 
+## F-statistic: 14.73 on 4 and 412 DF,  p-value: 2.955e-11</code></pre>
 </div>
 </div>
     </section>
